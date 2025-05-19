@@ -12,7 +12,7 @@ const ErrorPage = () => {
       </div>
       <div className="mx-auto text-center">
         <Link to="/">
-          <button className="btn btn-secondary ">GO-TO-HOME</button>
+          <button className="btn btn-secondary ">GO-TO-HOME-PAGE</button>
         </Link>
       </div>
     </div>
