@@ -23,6 +23,7 @@ import AdminMainLayout from "../Pages/dashboard/AdminMainLayout";
 import AdminDashboard from "../Pages/dashboard/AdminDashboard";
 import ProductPage from "../Pages/dashboard/ProductPage";
 import Createproduct from "../Pages/dashboard/Createproduct";
+import AdminProtectedRoute from "../Pages/dashboard/AdminProtectedRoute";
 // import AdminProtectedRoute from "../Pages/dashboard/AdminProtectedRoute";
 
 const router = createBrowserRouter([
@@ -108,9 +109,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      <ProtectedRoute>
+      <AdminProtectedRoute>
+        {" "}
         <AdminMainLayout />
-      </ProtectedRoute>
+      </AdminProtectedRoute>
     ),
     errorElement: <ErrorPage />,
     children: [

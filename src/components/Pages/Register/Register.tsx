@@ -16,7 +16,13 @@ const Register = () => {
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      toast.error(
+        "Password must be at least 8 characters long, include one uppercase and one lowercase letter."
+      );
+      return;
+    }
     const userData = {
       name,
       email,

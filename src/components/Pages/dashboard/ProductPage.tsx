@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { ScaleLoader } from "react-spinners";
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
@@ -30,7 +31,12 @@ const ProductPage = () => {
   }, []);
 
   if (loading) {
-    return <div className="text-center mt-10 text-lg">Loading products...</div>;
+    return (
+      <div className="text-center mt-10 text-lg">
+        {" "}
+        <ScaleLoader color="#2cabab" height={12} />
+      </div>
+    );
   }
 
   return (
