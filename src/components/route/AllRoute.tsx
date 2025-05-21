@@ -5,7 +5,6 @@ import HomePage from "../Pages/Home/Home";
 import NapaMedicines from "../Pages/Medicines/Napa";
 import SecloMedicines from "../Pages/Medicines/Seclo";
 import MonusMedicines from "../Pages/Products/Monus";
-
 import StethoscopePage from "../Pages/Equipments/Stethoscope";
 import ThermomiterPage from "../Pages/Equipments/Thermomiter";
 import OnlineDoctors from "../Pages/OnlineDoctor/OnlineDoctors";
@@ -19,6 +18,11 @@ import AllProducts from "../Pages/Products/AllProducts";
 import AllProductDetails from "../Pages/Products/AllProductDetails";
 import StethoscopeDetails from "../Pages/Equipments/StethoscopeDetails";
 import ThermomiterDetails from "../Pages/Equipments/ThermomiterDetails";
+import ProtectedRoute from "../ProtectedRoute";
+import AdminMainLayout from "../Pages/dashboard/AdminMainLayout";
+import AdminDashboard from "../Pages/dashboard/AdminDashboard";
+import ProductPage from "../Pages/dashboard/ProductPage";
+// import AdminProtectedRoute from "../Pages/dashboard/AdminProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +36,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/medicines/napa",
-        element: <NapaMedicines />,
+        element: (
+          <ProtectedRoute>
+            <NapaMedicines />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/login",
@@ -93,6 +101,25 @@ const router = createBrowserRouter([
       {
         path: "allmedicineDetails/:id",
         element: <AllMedicineDetails />,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <ProtectedRoute>
+        <AdminMainLayout />
+      </ProtectedRoute>
+    ),
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "admin-dashboard",
+        element: <AdminDashboard />,
+      },
+      {
+        path: "admin-dashboard/products",
+        element: <ProductPage />,
       },
     ],
   },

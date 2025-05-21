@@ -5,8 +5,10 @@ import { FcBusinessman } from "react-icons/fc";
 import SecondNavbar from "./SecondNavbar";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
+import { useAuth } from "../privateRoute/AuthContext";
 
 const FirstNavbar = () => {
+  const { user, logout } = useAuth();
   return (
     <div className="shadow-sm w-full sticky top-0 z-50 bg-cyan-200">
       {/* Top Navbar */}
@@ -46,11 +48,20 @@ const FirstNavbar = () => {
           </li>
 
           {/* Login (sm up) */}
-          <Link to="/login">
-            <button className="btn btn-success btn-sm hidden sm:inline-block text-xs">
-              Login
+          {user ? (
+            <button
+              onClick={logout}
+              className="btn btn-error btn-sm hidden sm:inline-block text-xs"
+            >
+              Logout
             </button>
-          </Link>
+          ) : (
+            <Link to="/login">
+              <button className="btn btn-success btn-sm hidden sm:inline-block text-xs">
+                Login
+              </button>
+            </Link>
+          )}
 
           {/* Profile */}
           <div className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center bg-gray-100">
