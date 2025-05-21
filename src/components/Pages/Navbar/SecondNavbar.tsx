@@ -1,7 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../privateRoute/AuthContext";
 
 const SecondNavbar = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
+
+  const isAdminOrPharmacist =
+    user?.role === "admin" || user?.role === "pharmacist";
 
   return (
     <div>
@@ -66,12 +71,19 @@ const SecondNavbar = () => {
                   <option value="thermometer">Thermometer</option>
                 </select>
               </li>
+
               <li>
                 <Link to="/products/all-products">All-Products</Link>
               </li>
               <li>
                 <Link to="/online-doctor">Online Doctor</Link>
               </li>
+
+              {isAdminOrPharmacist && (
+                <li>
+                  <Link to="/dashboard">Dashboard</Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>
@@ -115,12 +127,19 @@ const SecondNavbar = () => {
                 <option value="thermometer">Thermometer</option>
               </select>
             </li>
+
             <li>
               <Link to="/products/all-products">All-Products</Link>
             </li>
             <li>
               <Link to="/online-doctor">Online Doctor</Link>
             </li>
+
+            {isAdminOrPharmacist && (
+              <li>
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+            )}
           </ul>
         </div>
 

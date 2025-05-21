@@ -1,9 +1,69 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import hdVedio from "../../../assets/medicine.mp4";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useAuth } from "../privateRoute/AuthContext";
+import { jwtDecode } from "jwt-decode";
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const location = useLocation();
+  const from = (location.state as { from?: Location })?.from?.pathname || "/";
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement)
+      .value;
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/auth/login",
+        { email, password },
+        { withCredentials: true }
+      );
+      console.log("Full login response:", response.data);
+
+      toast.success("Login successful");
+
+      const accessToken = response.data?.data?.accessToken;
+
+      if (!accessToken) {
+        throw new Error("No access token received");
+      }
+
+      login(accessToken);
+
+      const decoded = jwtDecode<{ role: string; email: string }>(accessToken);
+      const role = decoded.role;
+
+      console.log("Decoded role:", role);
+
+      // Redirect to the page user tried to visit before login
+      if (from && from !== "/login") {
+        navigate(from, { replace: true });
+      } else {
+        // Fallback role-based navigation
+        if (role === "admin") {
+          navigate("/dashboard/admin-dashboard", { replace: true });
+        } else if (role === "pharmacist") {
+          navigate("/dashboard/pharmacist", { replace: true });
+        } else if (role === "user") {
+          navigate("/", { replace: true });
+        } else {
+          toast.error("Unknown user role");
+        }
+      }
+    } catch (error: any) {
+      toast.error("Invalid email or password");
+      console.error("Login failed:", error.response?.data || error.message);
+    }
+  };
 
   return (
     <div className="relative min-h-screen flex items-center justify-center">
@@ -24,7 +84,7 @@ const Login = () => {
           Login
         </h2>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleLogin}>
           <div>
             <label
               htmlFor="email"
@@ -35,6 +95,7 @@ const Login = () => {
             <input
               type="email"
               id="email"
+              name="email"
               className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Enter your email"
               required
@@ -52,6 +113,7 @@ const Login = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
+                name="password"
                 className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 pr-10"
                 placeholder="Enter your password"
                 required
@@ -72,10 +134,10 @@ const Login = () => {
           >
             Login
           </button>
-          <p>
-            Do not have an Account please
-            <Link to="/register">
-              <span className=" font-bold text-green-700">Register</span>
+          <p className="text-center text-sm">
+            Don't have an account?{" "}
+            <Link to="/register" className="font-bold text-green-700">
+              Register
             </Link>
           </p>
         </form>
