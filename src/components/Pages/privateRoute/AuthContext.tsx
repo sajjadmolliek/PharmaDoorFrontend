@@ -22,6 +22,7 @@ interface AuthContextType {
   accessToken: string | null;
   login: (token: string) => void;
   logout: () => void;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -29,25 +30,31 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<DecodedToken | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true); // ✅ Add loading state
 
-  //  (if accessToken is missing or expired)
+  // Handle existing token or refresh if missing/expired
   useEffect(() => {
     const existingToken = localStorage.getItem("accessToken");
 
-    if (existingToken) {
-      const decoded = jwtDecode<DecodedToken>(existingToken);
+    const handleAuth = async () => {
+      if (existingToken) {
+        const decoded = jwtDecode<DecodedToken>(existingToken);
+        const isExpired = decoded.exp && Date.now() >= decoded.exp * 1000;
 
-      const isExpired = decoded.exp && Date.now() >= decoded.exp * 1000;
-      if (isExpired) {
-        // If expired, try to refresh
-        refreshToken();
+        if (isExpired) {
+          await refreshToken(); // Refresh expired token
+        } else {
+          setUser(decoded);
+          setAccessToken(existingToken);
+        }
       } else {
-        setUser(decoded);
-        setAccessToken(existingToken);
+        await refreshToken(); // Try to get new token if none exists
       }
-    } else {
-      refreshToken();
-    }
+
+      setLoading(false); // ✅ Done loading
+    };
+
+    handleAuth();
   }, []);
 
   const login = (token: string) => {
@@ -56,9 +63,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(decoded);
     setAccessToken(token);
   };
+
   const logout = async () => {
     try {
-      // Call backend to clear refresh token cookie
       await axios.post(
         "http://localhost:5000/api/v1/auth/logout",
         {},
@@ -82,16 +89,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       );
       const newToken = res.data?.data?.accessToken;
       if (newToken) {
-        login(newToken); // Automatically sets new token
+        login(newToken);
       }
     } catch (err) {
       console.error("Refresh token failed:", err);
-      logout(); // log out if refresh failed
+      logout(); // force logout on refresh fail
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, login, logout }}>
+    <AuthContext.Provider value={{ user, accessToken, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
