@@ -24,6 +24,7 @@ import AdminDashboard from "../Pages/dashboard/AdminDashboard";
 import ProductPage from "../Pages/dashboard/ProductPage";
 import Createproduct from "../Pages/dashboard/Createproduct";
 import AdminProtectedRoute from "../Pages/dashboard/AdminProtectedRoute";
+import PhermacistRegister from "../Pages/Register/PhermacistRegister";
 // import AdminProtectedRoute from "../Pages/dashboard/AdminProtectedRoute";
 
 const router = createBrowserRouter([
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/phermacist-register",
+        element: <PhermacistRegister />,
       },
       {
         path: "/medicines/napaDetails/:id",

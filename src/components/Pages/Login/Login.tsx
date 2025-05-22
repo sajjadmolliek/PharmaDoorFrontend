@@ -7,12 +7,20 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuth } from "../privateRoute/AuthContext";
 import { jwtDecode } from "jwt-decode";
+
+interface DecodedToken {
+  role: string;
+  email: string;
+  status?: "pending" | "approved" | "rejected";
+}
+
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
   const location = useLocation();
   const from = (location.state as { from?: Location })?.from?.pathname || "/";
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -23,13 +31,12 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/login",
+        "https://pharma-door-backend.vercel.app/api/v1/auth/login",
         { email, password },
         { withCredentials: true }
       );
-      console.log("Full login response:", response.data);
 
-      toast.success("Login successful");
+      console.log("Full login response:", response.data);
 
       const accessToken = response.data?.data?.accessToken;
 
@@ -37,18 +44,28 @@ const Login = () => {
         throw new Error("No access token received");
       }
 
-      login(accessToken);
+      const decoded = jwtDecode<DecodedToken>(accessToken);
 
-      const decoded = jwtDecode<{ role: string; email: string }>(accessToken);
       const role = decoded.role;
+      const status = decoded.status;
+      console.log(decoded);
+      console.log(status);
 
-      console.log("Decoded role:", role);
+      if (role === "pharmacist" && status !== "approved") {
+        toast.error(
+          "Your account is not approved yet. Please wait for admin approval."
+        );
+        return;
+      }
 
-      // Redirect to the page user tried to visit before login
+      login(accessToken);
+      toast.success("Login successful");
+
+      // Navigate after login
       if (from && from !== "/login") {
         navigate(from, { replace: true });
       } else {
-        // Fallback role-based navigation
+        // Role-based fallback navigation
         if (role === "admin") {
           navigate("/dashboard/admin-dashboard", { replace: true });
         } else if (role === "pharmacist") {
@@ -137,6 +154,15 @@ const Login = () => {
           <p className="text-center text-sm">
             Don't have an account?{" "}
             <Link to="/register" className="font-bold text-green-700">
+              Register
+            </Link>
+          </p>
+          <p className="text-center text-sm">
+            Don't have a Pharmacist account?{" "}
+            <Link
+              to="/phermacist-register"
+              className="font-bold text-green-700"
+            >
               Register
             </Link>
           </p>

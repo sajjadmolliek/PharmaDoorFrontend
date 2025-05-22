@@ -5,8 +5,8 @@ const SecondNavbar = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const isAdminOrPharmacist =
-    user?.role === "admin" || user?.role === "pharmacist";
+  const isAdmin = user?.role === "admin";
+  const isParmacist = user?.role === "pharmacist";
 
   return (
     <div>
@@ -79,9 +79,14 @@ const SecondNavbar = () => {
                 <Link to="/online-doctor">Online Doctor</Link>
               </li>
 
-              {isAdminOrPharmacist && (
+              {isAdmin && (
                 <li>
-                  <Link to="/dashboard">Dashboard</Link>
+                  <Link to="/dashboard">Admin-Dashboard</Link>
+                </li>
+              )}
+              {isParmacist && (
+                <li>
+                  <Link to="/dashboard">Pharmacist-Dashboard</Link>
                 </li>
               )}
             </ul>
@@ -135,9 +140,14 @@ const SecondNavbar = () => {
               <Link to="/online-doctor">Online Doctor</Link>
             </li>
 
-            {isAdminOrPharmacist && (
+            {isAdmin && (
               <li>
-                <Link to="/dashboard">Dashboard</Link>
+                <Link to="/dashboard">Admin-Dashboard</Link>
+              </li>
+            )}
+            {isParmacist && (
+              <li>
+                <Link to="/dashboard">Pharmacist-Dashboard</Link>
               </li>
             )}
           </ul>

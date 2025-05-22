@@ -38,7 +38,7 @@ const NapaDetailsPage = () => {
 
   return (
     <div className="mt-4">
-      <div className="flex flex-warm justify-evenly mx-auto">
+      <div className="flex flex-wrap justify-evenly mx-auto">
         <div>
           <img
             src={medicine.image}
@@ -51,7 +51,7 @@ const NapaDetailsPage = () => {
           </div>
         </div>
         {/* data */}
-        <div className=" bg-white gap-4">
+        <div className=" bg-white gap-4 flex-wrap">
           <div className="h-14 bg-linear-to-bl from-violet-500 to-fuchsia-500">
             <span className="flex flex-wrap py-2 px-2 mx-auto items-center gap-4 text-white">
               ব্যবসার জন্য পাইকারি দামে পণ্য কিনতে চাইলে{" "}

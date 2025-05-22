@@ -4,8 +4,19 @@ const DiscountPopup = () => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShow(true), 1000);
-    return () => clearTimeout(timer);
+    // Show popup after 1 second
+    const showTimer = setTimeout(() => {
+      setShow(true);
+
+      // Auto-hide popup after 1 more second
+      const hideTimer = setTimeout(() => {
+        setShow(false);
+      }, 2000);
+
+      return () => clearTimeout(hideTimer);
+    }, 2000);
+
+    return () => clearTimeout(showTimer);
   }, []);
 
   if (!show) return null;

@@ -14,6 +14,7 @@ import axios from "axios";
 interface DecodedToken {
   role: string;
   email: string;
+  status?: string;
   exp?: number;
 }
 
@@ -30,7 +31,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<DecodedToken | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true); // ✅ Add loading state
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Handle existing token or refresh if missing/expired
   useEffect(() => {
@@ -48,10 +49,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setAccessToken(existingToken);
         }
       } else {
-        await refreshToken(); // Try to get new token if none exists
+        await refreshToken();
       }
 
-      setLoading(false); // ✅ Done loading
+      setLoading(false);
     };
 
     handleAuth();
@@ -63,11 +64,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(decoded);
     setAccessToken(token);
   };
-
+  // http://localhost:5000/
   const logout = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/v1/auth/logout",
+        "https://pharma-door-backend.vercel.app/api/v1/auth/logout",
         {},
         { withCredentials: true }
       );
@@ -83,7 +84,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const refreshToken = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/v1/auth/refresh-token",
+        "https://pharma-door-backend.vercel.app/api/v1/auth/refresh-token",
         {},
         { withCredentials: true }
       );
@@ -93,7 +94,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (err) {
       console.error("Refresh token failed:", err);
-      logout(); // force logout on refresh fail
+      setUser(null);
+      setAccessToken(null);
+      localStorage.removeItem("accessToken");
     }
   };
 
