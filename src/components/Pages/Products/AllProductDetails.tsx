@@ -33,7 +33,9 @@ const AllProductDetails = () => {
 
   if (!medicine) {
     return (
-      <div className="text-center mt-10 text-red-600">Loading or Not Found</div>
+      <div className="text-center mt-10 text-red-600">
+        Loading or Not Found data
+      </div>
     );
   }
 
