@@ -86,7 +86,7 @@ const SecondNavbar = () => {
               )}
               {isParmacist && (
                 <li>
-                  <Link to="/dashboard">Pharmacist-Dashboard</Link>
+                  <Link to="/Pdashboard">Pharmacist-Dashboard</Link>
                 </li>
               )}
             </ul>
@@ -147,7 +147,7 @@ const SecondNavbar = () => {
             )}
             {isParmacist && (
               <li>
-                <Link to="/dashboard">Pharmacist-Dashboard</Link>
+                <Link to="/Pdashboard">Pharmacist-Dashboard</Link>
               </li>
             )}
           </ul>

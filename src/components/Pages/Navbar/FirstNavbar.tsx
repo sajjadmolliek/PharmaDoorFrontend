@@ -3,12 +3,17 @@ import image1 from "../../../assets/Image2.png";
 import image2 from "../../../assets/Image (1).png";
 import { FcBusinessman } from "react-icons/fc";
 import SecondNavbar from "./SecondNavbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import { useAuth } from "../privateRoute/AuthContext";
 
 const FirstNavbar = () => {
   const { user, logout } = useAuth();
+  const nevigate = useNavigate();
+  const handlelogout = () => {
+    logout();
+    nevigate("/login");
+  };
   return (
     <div className="shadow-sm w-full sticky top-0 z-50 bg-cyan-200">
       {/* Top Navbar */}
@@ -50,7 +55,7 @@ const FirstNavbar = () => {
           {/* Login (sm up) */}
           {user ? (
             <button
-              onClick={logout}
+              onClick={handlelogout}
               className="btn btn-error btn-sm hidden sm:inline-block text-xs"
             >
               Logout

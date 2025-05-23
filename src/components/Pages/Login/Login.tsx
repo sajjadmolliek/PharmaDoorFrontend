@@ -69,7 +69,7 @@ const Login = () => {
         if (role === "admin") {
           navigate("/dashboard/admin-dashboard", { replace: true });
         } else if (role === "pharmacist") {
-          navigate("/dashboard/pharmacist", { replace: true });
+          navigate("/dashboard/pharmacist-dashboard", { replace: true });
         } else if (role === "user") {
           navigate("/", { replace: true });
         } else {

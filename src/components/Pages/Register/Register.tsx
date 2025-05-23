@@ -4,7 +4,7 @@ import { Eye, EyeOff } from "lucide-react";
 import bgVideo from "../../../assets/Science Laboratory 4K Stock Video.mp4";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -130,12 +130,12 @@ const Register = () => {
 
         <p className="mt-4 text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <a
-            href="/login"
+          <Link
+            to="/login"
             className="text-indigo-600 font-medium hover:underline"
           >
             Login here
-          </a>
+          </Link>
         </p>
       </div>
     </div>

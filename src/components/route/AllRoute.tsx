@@ -25,6 +25,9 @@ import ProductPage from "../Pages/dashboard/ProductPage";
 import Createproduct from "../Pages/dashboard/Createproduct";
 import AdminProtectedRoute from "../Pages/dashboard/AdminProtectedRoute";
 import PhermacistRegister from "../Pages/Register/PhermacistRegister";
+import PharmasistMainLayout from "../Pages/pharmasistDashboard/PharmasistMainLayout";
+import PharmacistProtectedRoute from "../Pages/pharmasistDashboard/PharmacistProtectedRoute";
+import PharmasistsDashboard from "../Pages/pharmasistDashboard/PharmasistsDashboard";
 // import AdminProtectedRoute from "../Pages/dashboard/AdminProtectedRoute";
 
 const router = createBrowserRouter([
@@ -131,6 +134,29 @@ const router = createBrowserRouter([
       },
       {
         path: "admin-dashboard/create-product",
+        element: <Createproduct />,
+      },
+    ],
+  },
+  {
+    path: "/Pdashboard",
+    element: (
+      <PharmacistProtectedRoute>
+        <PharmasistMainLayout />
+      </PharmacistProtectedRoute>
+    ),
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "pharmacist-dashboard",
+        element: <PharmasistsDashboard />,
+      },
+      {
+        path: "pharmacist-dashboard/products",
+        element: <ProductPage />,
+      },
+      {
+        path: "pharmacist-dashboard/create-product",
         element: <Createproduct />,
       },
     ],
