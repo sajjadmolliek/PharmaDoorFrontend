@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import bgVideo from "../../../assets/Science Laboratory 4K Stock Video.mp4";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const imgbbApiKey = import.meta.env.IMMAGEBB_API_KEY;
 
@@ -218,12 +219,12 @@ const PharmacistRegister = () => {
 
           <p className="mt-4 text-center text-sm text-gray-600">
             Already have a Pharmacist account?{" "}
-            <a
-              href="/login"
+            <Link
+              to="/login"
               className="text-indigo-600 font-medium hover:underline"
             >
               Login here
-            </a>
+            </Link>
           </p>
         </form>
       </div>

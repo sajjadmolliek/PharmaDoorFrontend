@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import SafetyAdvice from "../OtcMedicine/SafetyAdvice";
 import AdditionalOffer from "../OtcMedicine/AdditionalOffer";
+import brandImage from "../../../assets/brand1.png";
 
 type NapaMedicine = {
   id: number;
@@ -15,7 +16,7 @@ type NapaMedicine = {
   image: string;
   category: string;
 };
-import brandImage from "../../../assets/brand1.png";
+
 const NapaDetailsPage = () => {
   const { id } = useParams();
   const [medicine, setMedicine] = useState<NapaMedicine | null>(null);
@@ -37,72 +38,71 @@ const NapaDetailsPage = () => {
   }
 
   return (
-    <div className="mt-4">
-      <div className="flex flex-wrap justify-evenly mx-auto">
-        <div>
+    <div className="mt-6 px-4">
+      <div className="flex flex-col md:flex-row gap-6 justify-center items-start max-w-6xl mx-auto">
+        {/* Left Column */}
+        <div className="w-full md:w-1/2 flex flex-col items-center">
           <img
             src={medicine.image}
             alt={medicine.name}
-            className="w-60 h-60 mx-auto object-contain mb-4"
+            className="w-60 h-60 object-contain mb-4"
           />
-
-          <div>
+          <div className="w-full">
             <SafetyAdvice />
           </div>
         </div>
-        {/* data */}
-        <div className=" bg-white gap-4 flex-wrap">
-          <div className="h-14 bg-linear-to-bl from-violet-500 to-fuchsia-500">
-            <span className="flex flex-wrap py-2 px-2 mx-auto items-center gap-4 text-white">
+
+        {/* Right Column */}
+        <div className="w-full md:w-1/2 bg-white p-4 rounded-lg shadow-md space-y-4">
+          <div className="h-14 bg-gradient-to-bl from-violet-500 to-fuchsia-500 rounded-md flex items-center px-4">
+            <span className="text-white text-sm flex flex-wrap gap-2">
               ব্যবসার জন্য পাইকারি দামে পণ্য কিনতে চাইলে{" "}
               <Link to="/register">
-                <button className="btn btn-secondary">Register</button>
+                <button className="btn btn-secondary btn-sm">Register</button>
               </Link>
             </span>
           </div>
-          <h1 className="text-2xl font-bold mt-2 mb-2 text-red-500">
-            {medicine.name}
-          </h1>
-          <p className="text-gray-700 font-bold mb-4 flex mx-auto items-center gap-2">
-            <img src={brandImage} alt="" />{" "}
+
+          <h1 className="text-2xl font-bold text-red-500">{medicine.name}</h1>
+
+          <p className="text-gray-700 font-bold flex items-center gap-2">
+            <img src={brandImage} alt="Brand" className="w-6 h-6" />
             <span className="text-emerald-500">{medicine.manufacturer}</span>
           </p>
-          <p className="text-gray-800  font-bold mb-4">
-            Genric:{" "}
-            <span className="text-emerald-500 font-bold">
-              {" "}
+
+          <p className="text-gray-800 font-bold">
+            Generic:{" "}
+            <span className="text-emerald-500 font-semibold">
               {medicine.generic}
             </span>
           </p>
-          <p className="text-gray-800  font-bold mb-4">
+
+          <p className="text-gray-800 font-bold">
             Price:{" "}
-            <span className="text-emerald-500 "> {medicine.price} TK</span>
+            <span className="text-emerald-500 font-semibold">
+              {medicine.price} TK
+            </span>
           </p>
 
-          <div className="mb-4">
-            <p className="font-bold">
-              category:{" "}
-              <span className="text-emerald-500">{medicine?.category}</span>
-            </p>
-          </div>
-          <div className="mb-4"></div>
-          <p className="font-bold mb-4">
-            Form: <span className="text-emerald-500">{medicine?.form}</span>
+          <p className="font-bold">
+            Category:{" "}
+            <span className="text-emerald-500">{medicine.category}</span>
           </p>
 
-          <div className="mt-auto ">
-            <Link to="/cart">
-              <button className="btn bg-[#0E7673] text-white w-full">
-                Add-To-Cart
-              </button>
-            </Link>
-          </div>
-          {/* extra data  */}
-          <div className="mt-2">
-            <div>
-              <p className="font-bold mb-2">Additional Offer</p>
-              <AdditionalOffer />
-            </div>
+          <p className="font-bold">
+            Form: <span className="text-emerald-500">{medicine.form}</span>
+          </p>
+
+          <Link to="/cart">
+            <button className="btn bg-[#0E7673] text-white w-full">
+              Add-To-Cart
+            </button>
+          </Link>
+
+          {/* Additional Offer */}
+          <div>
+            <p className="font-bold mb-1">Additional Offer</p>
+            <AdditionalOffer />
           </div>
         </div>
       </div>

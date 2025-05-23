@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import brandImage from "../../../assets/brand1.png";
-// import percentageImage from "../../../assets/percentage.png";
-
 import AdditionalOffer from "./AdditionalOffer";
 import SafetyAdvice from "./SafetyAdvice";
 
@@ -41,37 +39,41 @@ const AllMedicineDetails = () => {
   }
 
   return (
-    <div className="mt-4 px-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-        {/* Left side: Image & SafetyAdvice */}
+    <div className="mt-6 px-4 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        {/* Left Section: Image + Safety Advice */}
         <div className="flex flex-col items-center">
           <img
             src={medicine.image}
             alt={medicine.name}
-            className="w-60 h-60 object-contain mb-4"
+            className="w-56 h-56 object-contain mb-4"
           />
           <SafetyAdvice />
         </div>
 
-        {/* Right side: Medicine Details */}
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="bg-gradient-to-bl from-violet-500 to-fuchsia-500 text-white p-3 rounded-md mb-4 text-center">
+        {/* Right Section: Details */}
+        <div className="bg-white p-5 rounded-lg shadow-md w-full">
+          <div className="bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white p-4 rounded-md mb-4 text-center text-sm sm:text-base">
             <p className="flex flex-col sm:flex-row items-center justify-center gap-2">
               ব্যবসার জন্য পাইকারি দামে পণ্য কিনতে চাইলে
               <Link to="/register">
-                <button className="btn btn-secondary ml-2">Register</button>
+                <button className="btn btn-secondary ml-0 sm:ml-2 mt-2 sm:mt-0">
+                  Register
+                </button>
               </Link>
             </p>
           </div>
 
-          <h1 className="text-2xl font-bold text-red-500 mb-2">
+          <h1 className="text-2xl font-bold text-red-500 mb-3">
             {medicine.name}
           </h1>
 
-          <p className="text-gray-700 font-bold mb-2 flex items-center gap-2">
-            <img src={brandImage} alt="" className="w-5 h-5" />
-            <span className="text-emerald-500">{medicine.brand}</span>
-          </p>
+          <div className="flex items-center gap-2 mb-3">
+            <img src={brandImage} alt="brand" className="w-5 h-5" />
+            <span className="text-emerald-500 font-semibold">
+              {medicine.brand}
+            </span>
+          </div>
 
           <p className="text-gray-800 font-bold mb-2">
             Generic:{" "}
@@ -91,13 +93,12 @@ const AllMedicineDetails = () => {
           </p>
 
           <Link to="/cart">
-            <button className="btn bg-[#0E7673] text-white w-full">
+            <button className="btn bg-[#0E7673] hover:bg-[#095c5a] text-white w-full transition">
               Add-To-Cart
             </button>
           </Link>
 
-          {/* Extra Offer */}
-          <div className="mt-4">
+          <div className="mt-6">
             <p className="font-bold mb-2">Additional Offer</p>
             <AdditionalOffer />
           </div>
