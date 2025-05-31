@@ -3,11 +3,12 @@ import { useState } from "react";
 import axios from "axios";
 import bgVideo from "../../../assets/Science Laboratory 4K Stock Video.mp4";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const imgbbApiKey = import.meta.env.IMMAGEBB_API_KEY;
-
+const imgbbApiKey = import.meta.env.VITE_IMGBB_API_KEY;
+console.log(imgbbApiKey);
 const PharmacistRegister = () => {
+  const nevigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -20,6 +21,7 @@ const PharmacistRegister = () => {
   });
 
   const [nidImage, setNidImage] = useState<File | null>(null);
+  const [profileImage, setprofileImage] = useState<File | null>(null);
   const [drugLicenseImage, setDrugLicenseImage] = useState<File | null>(null);
   const [tradeLicenseImage, setTradeLicenseImage] = useState<File | null>(null);
 
@@ -49,37 +51,46 @@ const PharmacistRegister = () => {
     return res.data.data.url;
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log("formData before submit:", formData);
-
     try {
-      const nidImageUrl = nidImage ? await uploadImageToImgbb(nidImage) : "";
-      const drugLicenseImageUrl = drugLicenseImage
-        ? await uploadImageToImgbb(drugLicenseImage)
-        : "";
-      const tradeLicenseImageUrl = tradeLicenseImage
-        ? await uploadImageToImgbb(tradeLicenseImage)
-        : "";
+      const uploadPromises = [
+        nidImage ? uploadImageToImgbb(nidImage) : Promise.resolve(""),
+        profileImage ? uploadImageToImgbb(profileImage) : Promise.resolve(""),
+        drugLicenseImage
+          ? uploadImageToImgbb(drugLicenseImage)
+          : Promise.resolve(""),
+        tradeLicenseImage
+          ? uploadImageToImgbb(tradeLicenseImage)
+          : Promise.resolve(""),
+      ];
+
+      const [
+        nidImageUrl,
+        profileImageUrl,
+        drugLicenseImageUrl,
+        tradeLicenseImageUrl,
+      ] = await Promise.all(uploadPromises);
 
       const payload = {
         password: formData.password,
         pharmacist: {
           ...formData,
           nidImage: nidImageUrl,
+          profileImage: profileImageUrl,
           drugLicenseImage: drugLicenseImageUrl,
           tradeLicenseImage: tradeLicenseImageUrl,
         },
       };
 
-      console.log("payload before submit:", payload);
-
       await axios.post(
         "http://localhost:5000/api/v1/users/create-phermasist",
         payload
       );
+
       toast.success("Registration successful!");
+      nevigate("/login");
     } catch (error) {
       console.error("Error during registration:", error);
       toast.error("Registration failed!");
@@ -158,15 +169,7 @@ const PharmacistRegister = () => {
             className="w-full border p-2 rounded"
             required
           />
-          <input
-            type="text"
-            name="nid"
-            placeholder="NID Number"
-            onChange={handleChange}
-            value={formData.nid}
-            className="w-full border p-2 rounded"
-            required
-          />
+
           <input
             type="password"
             name="password"
@@ -176,7 +179,25 @@ const PharmacistRegister = () => {
             className="w-full border p-2 rounded"
             required
           />
-
+          <input
+            type="text"
+            name="nid"
+            placeholder="NID Number"
+            onChange={handleChange}
+            value={formData.nid}
+            className="w-full border p-2 rounded"
+            required
+          />
+          <div>
+            <label className="block mb-1">Upload Your Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => handleFileChange(e, setprofileImage)}
+              className="w-full border p-2 rounded"
+              required
+            />
+          </div>
           <div>
             <label className="block mb-1">Upload NID Image</label>
             <input

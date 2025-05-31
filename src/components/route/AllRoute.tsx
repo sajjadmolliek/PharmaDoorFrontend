@@ -28,6 +28,13 @@ import PhermacistRegister from "../Pages/Register/PhermacistRegister";
 import PharmasistMainLayout from "../Pages/pharmasistDashboard/PharmasistMainLayout";
 import PharmacistProtectedRoute from "../Pages/pharmasistDashboard/PharmacistProtectedRoute";
 import PharmasistsDashboard from "../Pages/pharmasistDashboard/PharmasistsDashboard";
+import AllUsers from "../Pages/dashboard/AllUsers";
+import AllRegisterPhaemacist from "../Pages/dashboard/AllRegisterPhaemacist";
+import PharmacistDocument from "../Pages/dashboard/PharmacistDocument";
+import UpdateAllUser from "../Pages/dashboard/UpdateAllUser";
+import UpdatePharmacist from "../Pages/dashboard/UpdatePharmacist";
+import PharmacistProfile from "../Pages/pharmasistDashboard/PharmacistProfile";
+import CreateMedicine from "../Pages/pharmasistDashboard/CreateMedicine";
 // import AdminProtectedRoute from "../Pages/dashboard/AdminProtectedRoute";
 
 const router = createBrowserRouter([
@@ -129,6 +136,26 @@ const router = createBrowserRouter([
         element: <AdminDashboard />,
       },
       {
+        path: "admin-dashboard/all-users",
+        element: <AllUsers />,
+      },
+      {
+        path: "admin-dashboard/all-pharmacist",
+        element: <AllRegisterPhaemacist />,
+      },
+      {
+        path: "admin-dashboard/all-document",
+        element: <PharmacistDocument />,
+      },
+      {
+        path: "admin-dashboard/all-users/:_id",
+        element: <UpdateAllUser />,
+      },
+      {
+        path: "admin-dashboard/all-pharmacist/:_id",
+        element: <UpdatePharmacist />,
+      },
+      {
         path: "admin-dashboard/products",
         element: <ProductPage />,
       },
@@ -156,8 +183,12 @@ const router = createBrowserRouter([
         element: <ProductPage />,
       },
       {
-        path: "pharmacist-dashboard/create-product",
-        element: <Createproduct />,
+        path: "pharmacist-dashboard/create-medicine",
+        element: <CreateMedicine />,
+      },
+      {
+        path: "pharmacist-dashboard/profile",
+        element: <PharmacistProfile />,
       },
     ],
   },

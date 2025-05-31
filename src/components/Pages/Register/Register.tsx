@@ -31,7 +31,7 @@ const Register = () => {
     // http://localhost:5000/
     try {
       const response = await axios.post(
-        "https://pharma-door-backend.vercel.app/api/v1/users/create-user",
+        "http://localhost:5000/api/v1/users/create-user",
         userData
       );
 

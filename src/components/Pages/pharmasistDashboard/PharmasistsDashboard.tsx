@@ -15,9 +15,7 @@ const PharmasistsDashboard = () => {
     const fetchUsers = async () => {
       try {
         // const response = await axios.get("http://localhost:5000/api/v1/users");
-        const response = await axios.get(
-          "https://pharma-door-backend.vercel.app/api/v1/users"
-        );
+        const response = await axios.get("http://localhost:5000/api/v1/users");
         const users = response.data?.data;
 
         if (Array.isArray(users)) {

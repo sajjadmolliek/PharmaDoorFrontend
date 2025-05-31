@@ -32,7 +32,9 @@ const PharmacistSidebar = ({ children }: AdminSidebarProps) => {
           isOpen ? "block" : "hidden"
         } lg:block bg-gray-900 text-white w-64 h-screen fixed top-0 left-0 z-50 p-6 transition-all duration-300`}
       >
-        <h2 className="text-2xl font-semibold mb-8 text-center">Admin Panel</h2>
+        <h2 className="text-2xl font-semibold mb-8 text-center">
+          Pharmacist Panel
+        </h2>
 
         <nav className="flex flex-col gap-3">
           <SidebarLink to="/" icon={<FiHome />} label="Home" />
@@ -47,9 +49,9 @@ const PharmacistSidebar = ({ children }: AdminSidebarProps) => {
             label="Product"
           />
           <SidebarLink
-            to="/Pdashboard/pharmacist-dashboard/create-product"
+            to="/Pdashboard/pharmacist-dashboard/create-medicine"
             icon={<FiList />}
-            label="All Products"
+            label="create-medicines"
           />
           <SidebarLink
             icon={<FiLogOut />}

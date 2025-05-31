@@ -9,6 +9,8 @@ import { useAuth } from "../privateRoute/AuthContext";
 import { jwtDecode } from "jwt-decode";
 
 interface DecodedToken {
+  name: string;
+  profileImage: string;
   role: string;
   email: string;
   status?: "pending" | "approved" | "rejected";
@@ -31,7 +33,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "https://pharma-door-backend.vercel.app/api/v1/auth/login",
+        "http://localhost:5000/api/v1/auth/login",
         { email, password },
         { withCredentials: true }
       );
@@ -48,8 +50,12 @@ const Login = () => {
 
       const role = decoded.role;
       const status = decoded.status;
+      const profileImage = decoded.profileImage;
+      const name = decoded.name;
       console.log(decoded);
       console.log(status);
+      console.log(profileImage);
+      console.log(name);
 
       if (role === "pharmacist" && status !== "approved") {
         toast.error(

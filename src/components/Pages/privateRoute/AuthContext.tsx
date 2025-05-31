@@ -12,8 +12,11 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 interface DecodedToken {
+  _id: string;
+  name: string;
   role: string;
   email: string;
+  profileImage: string;
   status?: string;
   exp?: number;
 }
@@ -24,6 +27,7 @@ interface AuthContextType {
   login: (token: string) => void;
   logout: () => void;
   loading: boolean;
+  updateUser: (user: DecodedToken) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -64,11 +68,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(decoded);
     setAccessToken(token);
   };
-  // http://localhost:5000/
+
   const logout = async () => {
     try {
       await axios.post(
-        "https://pharma-door-backend.vercel.app/api/v1/auth/logout",
+        "http://localhost:5000/api/v1/auth/logout",
         {},
         { withCredentials: true }
       );
@@ -84,7 +88,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const refreshToken = async () => {
     try {
       const res = await axios.post(
-        "https://pharma-door-backend.vercel.app/api/v1/auth/refresh-token",
+        "http://localhost:5000/api/v1/auth/refresh-token",
         {},
         { withCredentials: true }
       );
@@ -99,9 +103,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       localStorage.removeItem("accessToken");
     }
   };
-
+  const updateUser = (updatedUser: DecodedToken) => {
+    setUser(updatedUser);
+  };
   return (
-    <AuthContext.Provider value={{ user, accessToken, login, logout, loading }}>
+    <AuthContext.Provider
+      value={{ user, accessToken, login, logout, loading, updateUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
