@@ -48,7 +48,7 @@ const Checkout = () => {
     console.log(orderData);
     try {
       const response = await fetch(
-        "http://localhost:5000/api/v1/order/create",
+        "https://pharma-door-backend.vercel.app/api/v1/order/create",
         {
           method: "POST",
           headers: {
@@ -66,19 +66,19 @@ const Checkout = () => {
       console.log(data);
 
       if (data?.data?.result === "true" && data?.data?.payment_url) {
-        toast.success("✅ Redirecting to payment gateway...");
+        toast.success(" Redirecting to payment gateway...");
         localStorage.removeItem("cart");
         window.dispatchEvent(new Event("cartUpdated"));
         // Redirect to Aamarpay payment gateway
         window.location.href = data?.data.payment_url;
       } else {
-        toast.error("❌ Payment URL not found. Please try again.");
+        toast.error(" Payment URL not found. Please try again.");
       }
       localStorage.removeItem("cart");
       window.dispatchEvent(new Event("cartUpdated"));
     } catch (error) {
       console.error("Order submission error:", error);
-      toast.error("❌ Something went wrong. Please try again.");
+      toast.error(" Something went wrong. Please try again.");
     }
   };
 

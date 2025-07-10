@@ -5,6 +5,7 @@ import brandImage from "../../../assets/brand1.png";
 import SafetyAdvice from "../OtcMedicine/SafetyAdvice";
 import AdditionalOffer from "../OtcMedicine/AdditionalOffer";
 import toast from "react-hot-toast";
+import { ScaleLoader } from "react-spinners";
 
 type MedicalProduct = {
   id: number;
@@ -24,7 +25,7 @@ const ThermomiterDetails = () => {
   const [equipment, setEquipment] = useState<MedicalProduct | null>(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/equipment/${_id}`)
+    fetch(`https://pharma-door-backend.vercel.app/api/v1/equipment/${_id}`)
       .then((res) => res.json())
       .then((data) => {
         setEquipment(data.data || null);
@@ -34,7 +35,9 @@ const ThermomiterDetails = () => {
 
   if (!equipment) {
     return (
-      <div className="text-center mt-10 text-red-600">Loading or Not Found</div>
+      <div className="flex justify-center ">
+        <ScaleLoader color="#2cabab" height={35} />
+      </div>
     );
   }
   const handleAddToCart = () => {
@@ -49,7 +52,7 @@ const ThermomiterDetails = () => {
     const updatedCart = [...existingCart, productWithModel];
     localStorage.setItem("cart", JSON.stringify(updatedCart));
 
-    toast.success("✅ Equipment added to cart");
+    toast.success(" Equipment added to cart");
     window.dispatchEvent(new Event("cartUpdated"));
   };
 

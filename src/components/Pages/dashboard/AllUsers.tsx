@@ -20,11 +20,14 @@ const AllUsers = () => {
   //   const nevigate = useNavigate();
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/v1/users", {
-        headers: {
-          Authorization: ` ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      const res = await axios.get(
+        "https://pharma-door-backend.vercel.app/api/v1/users",
+        {
+          headers: {
+            Authorization: ` ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
 
       const allUsers = res.data.data || [];
       const filteredUsers = allUsers.filter(
@@ -62,11 +65,14 @@ const AllUsers = () => {
             return;
           }
 
-          await axios.delete(`http://localhost:5000/api/v1/users/${_id}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          await axios.delete(
+            `https://pharma-door-backend.vercel.app/api/v1/users/${_id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
           Swal.fire("Deleted!", "User has been deleted.", "success");
           toast.success("User deleted successfully");

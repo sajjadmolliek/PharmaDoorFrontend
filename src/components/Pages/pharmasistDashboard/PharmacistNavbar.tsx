@@ -30,12 +30,15 @@ const PharmacistNavbar = () => {
     const fetchMedicines = async () => {
       try {
         const token = localStorage.getItem("accessToken");
-        const res = await fetch("http://localhost:5000/api/v1/medicine", {
-          headers: {
-            Authorization: ` ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const res = await fetch(
+          "https://pharma-door-backend.vercel.app/api/v1/medicine",
+          {
+            headers: {
+              Authorization: ` ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
         if (!res.ok) throw new Error("Failed to fetch medicines");
 
         const json = await res.json();

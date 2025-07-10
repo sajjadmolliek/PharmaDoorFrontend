@@ -14,11 +14,14 @@ const Invoice = () => {
       if (!token || !_id) return;
 
       try {
-        const res = await fetch(`http://localhost:5000/api/v1/order/${_id}`, {
-          headers: {
-            Authorization: `${token}`,
-          },
-        });
+        const res = await fetch(
+          `https://pharma-door-backend.vercel.app/api/v1/order/${_id}`,
+          {
+            headers: {
+              Authorization: `${token}`,
+            },
+          }
+        );
 
         const data = await res.json();
 

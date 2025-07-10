@@ -24,7 +24,7 @@ const Createproduct = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/products",
+        "https://pharma-door-backend.vercel.app/api/products",
         product,
         {
           headers: {

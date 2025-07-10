@@ -13,7 +13,7 @@ const UpdateExpireMedicines = () => {
     const fetchMedicine = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/v1/medicine/${_id}`
+          `https://pharma-door-backend.vercel.app/api/v1/medicine/${_id}`
         );
         setExpireDate(res.data?.data?.expireDate || "");
       } catch (err) {
@@ -35,7 +35,7 @@ const UpdateExpireMedicines = () => {
         return;
       }
       const res = await axios.patch(
-        `http://localhost:5000/api/v1/medicine/${_id}`,
+        `https://pharma-door-backend.vercel.app/api/v1/medicine/${_id}`,
         { expiryDate },
         {
           headers: {

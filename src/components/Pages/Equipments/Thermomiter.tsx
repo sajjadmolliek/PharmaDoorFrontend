@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { ScaleLoader } from "react-spinners";
 
 type MedicalProduct = {
   _id: number;
@@ -21,19 +22,29 @@ type OutletContextType = {
 const ThermomiterPage = () => {
   const { searchText } = useOutletContext<OutletContextType>();
   const [medicalProducts, setMedicalProducts] = useState<MedicalProduct[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/equipment")
+    fetch("https://pharma-door-backend.vercel.app/api/v1/equipment")
       .then((res) => res.json())
       .then((data) => {
         const allMedicatProduct = data.data.filter((item: MedicalProduct) =>
           item.category.toLowerCase().includes(searchText.toLowerCase())
         );
         setMedicalProducts(allMedicatProduct);
+        setLoading(false);
       });
   }, [searchText]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center ">
+        <ScaleLoader color="#2cabab" height={35} />
+      </div>
+    );
+  }
   return (
     <div>
       <div className="px-4 py-8 bg-gray-50 min-h-screen">

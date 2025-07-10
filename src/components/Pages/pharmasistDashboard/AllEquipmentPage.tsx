@@ -43,7 +43,7 @@ const AllEquipmentPage = () => {
         console.log("Token:", token);
 
         const response = await axios.get(
-          "http://localhost:5000/api/v1/equipment",
+          "https://pharma-door-backend.vercel.app/api/v1/equipment",
           {
             headers: {
               Authorization: `${token}`,
@@ -100,7 +100,7 @@ const AllEquipmentPage = () => {
           toast.error("localstorage does not token");
         }
         const res = await axios.delete(
-          `http://localhost:5000/api/v1/equipment/${_id}`,
+          `https://pharma-door-backend.vercel.app/api/v1/equipment/${_id}`,
           {
             headers: {
               Authorization: `${token}`,

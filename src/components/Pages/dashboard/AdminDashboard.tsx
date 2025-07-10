@@ -42,9 +42,12 @@ const AdminDashboard = () => {
     const fetchUsers = async () => {
       try {
         const token = localStorage.getItem("accessToken");
-        const res = await axios.get("http://localhost:5000/api/v1/users", {
-          headers: { Authorization: `${token}` },
-        });
+        const res = await axios.get(
+          "https://pharma-door-backend.vercel.app/api/v1/users",
+          {
+            headers: { Authorization: `${token}` },
+          }
+        );
         const users = res.data?.data || [];
         setTotalUsers(users.length);
       } catch (error) {
@@ -59,7 +62,7 @@ const AdminDashboard = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const res = await axios.get(
-          "http://localhost:5000/api/v1/order/ordered-medicine",
+          "https://pharma-door-backend.vercel.app/api/v1/order/ordered-medicine",
           {
             headers: { Authorization: `${token}` },
           }

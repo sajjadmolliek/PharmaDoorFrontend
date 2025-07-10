@@ -26,7 +26,7 @@ const AllProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/medicine")
+    fetch("https://pharma-door-backend.vercel.app/api/v1/medicine")
       .then((res) => res.json())
       .then((data) => {
         const today = new Date();

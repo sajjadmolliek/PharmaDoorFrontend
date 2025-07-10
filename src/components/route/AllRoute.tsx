@@ -120,7 +120,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/equipments/stethoscope",
-        element: <StethoscopePage />,
+        element: (
+          <ProtectedRoute>
+            <StethoscopePage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/equipments/:_id",
@@ -128,10 +132,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/equipments/thermometer",
-        element: <ThermomiterPage />,
+        element: (
+          <ProtectedRoute>
+            {" "}
+            <ThermomiterPage />
+          </ProtectedRoute>
+        ),
       },
       {
-        path: "/equipments/:id",
+        path: "/equipments/:_id",
         element: <ThermomiterDetails />,
       },
       {
@@ -143,7 +152,7 @@ const router = createBrowserRouter([
         element: <OtciMedicineDetails />,
       },
       {
-        path: "allmedicineDetails/:id",
+        path: "allmedicineDetails/:_id",
         element: <AllMedicineDetails />,
       },
     ],

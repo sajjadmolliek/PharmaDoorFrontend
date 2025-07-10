@@ -18,7 +18,7 @@ const UpdatePharmacist = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(
-          `http://localhost:5000/api/v1/users/${_id}`,
+          `https://pharma-door-backend.vercel.app/api/v1/users/${_id}`,
           {
             headers: {
               Authorization: `${token}`,
@@ -49,7 +49,7 @@ const UpdatePharmacist = () => {
     try {
       const token = localStorage.getItem("accessToken");
       await axios.patch(
-        `http://localhost:5000/api/v1/users/${_id}`,
+        `https://pharma-door-backend.vercel.app/api/v1/users/${_id}`,
         { role, status },
         {
           headers: {

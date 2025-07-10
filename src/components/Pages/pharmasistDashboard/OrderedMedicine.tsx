@@ -29,7 +29,7 @@ const OrderedMedicine = () => {
         }
 
         const res = await fetch(
-          "http://localhost:5000/api/v1/order/ordered-medicine",
+          "https://pharma-door-backend.vercel.app/api/v1/order/ordered-medicine",
           {
             headers: {
               Authorization: `${token}`,

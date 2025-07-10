@@ -29,9 +29,12 @@ const PharmacistDocument = () => {
   const fetchPharmacists = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const res = await axios.get("http://localhost:5000/api/v1/phermacist", {
-        headers: { Authorization: `${token}` },
-      });
+      const res = await axios.get(
+        "https://pharma-door-backend.vercel.app/api/v1/phermacist",
+        {
+          headers: { Authorization: `${token}` },
+        }
+      );
       setPharmacists(res.data.data);
       setFiltered(res.data.data);
     } catch (error) {

@@ -32,7 +32,7 @@ const UpdateEquipment = () => {
         }
 
         const res = await axios.get(
-          `http://localhost:5000/api/v1/equipment/${_id}`,
+          `https://pharma-door-backend.vercel.app/api/v1/equipment/${_id}`,
           {
             headers: {
               Authorization: `${token}`,
@@ -102,12 +102,16 @@ const UpdateEquipment = () => {
         form.append("medicineImage", imageFile); // send image to backend (Cloudinary)
       }
 
-      await axios.patch(`http://localhost:5000/api/v1/equipment/${_id}`, form, {
-        headers: {
-          Authorization: `${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.patch(
+        `https://pharma-door-backend.vercel.app/api/v1/equipment/${_id}`,
+        form,
+        {
+          headers: {
+            Authorization: `${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       toast.success("Equipment updated successfully!");
       navigate("/pharmacist-dashboard/all-equipment");

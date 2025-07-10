@@ -46,11 +46,14 @@ const ExpireAllMedicine = () => {
           console.error("No access token found.");
           return;
         }
-        const res = await axios.get("http://localhost:5000/api/v1/medicine", {
-          headers: {
-            Authorization: `${token}`,
-          },
-        });
+        const res = await axios.get(
+          "https://pharma-door-backend.vercel.app/api/v1/medicine",
+          {
+            headers: {
+              Authorization: `${token}`,
+            },
+          }
+        );
 
         const medicines: Medicine[] = res.data.data;
 
@@ -91,7 +94,7 @@ const ExpireAllMedicine = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const res = await axios.delete(
-          `http://localhost:5000/api/v1/medicine/${_id}`,
+          `https://pharma-door-backend.vercel.app/api/v1/medicine/${_id}`,
           {
             headers: {
               Authorization: `${token}`,
