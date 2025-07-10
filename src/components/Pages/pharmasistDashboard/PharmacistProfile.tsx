@@ -137,7 +137,6 @@ const PharmacistProfile = () => {
             )}
           </div>
 
-          {/* Profile Image URL (optional) */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Profile Image URL

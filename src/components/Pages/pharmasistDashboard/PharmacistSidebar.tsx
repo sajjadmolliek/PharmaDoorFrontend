@@ -9,6 +9,8 @@ import {
   FiMenu,
 } from "react-icons/fi";
 import { useAuth } from "../privateRoute/AuthContext";
+import { Clock, ListOrdered, Podcast } from "lucide-react";
+import { FaAllergies } from "react-icons/fa";
 
 interface AdminSidebarProps {
   children?: ReactNode;
@@ -26,11 +28,10 @@ const PharmacistSidebar = ({ children }: AdminSidebarProps) => {
 
   return (
     <div className="flex">
-      {/* Sidebar */}
       <div
         className={`${
           isOpen ? "block" : "hidden"
-        } lg:block bg-gray-900 text-white w-64 h-screen fixed top-0 left-0 z-50 p-6 transition-all duration-300`}
+        } lg:block bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white w-64 h-screen fixed top-0 left-0 z-50 p-6 transition-all duration-300`}
       >
         <h2 className="text-2xl font-semibold mb-8 text-center">
           Pharmacist Panel
@@ -39,20 +40,41 @@ const PharmacistSidebar = ({ children }: AdminSidebarProps) => {
         <nav className="flex flex-col gap-3">
           <SidebarLink to="/" icon={<FiHome />} label="Home" />
           <SidebarLink
-            to="/Pdashboard/pharmacist-dashboard"
+            to="/pharmacist-dashboard"
             icon={<FiGrid />}
             label="Dashboard"
           />
           <SidebarLink
-            to="/Pdashboard/pharmacist-dashboard/products"
+            to="/pharmacist-dashboard/all-medicine"
             icon={<FiBox />}
-            label="Product"
+            label="All-Medicine"
           />
           <SidebarLink
-            to="/Pdashboard/pharmacist-dashboard/create-medicine"
+            to="/pharmacist-dashboard/expire-medicines"
+            icon={<Clock className="text-red-600 w-5 h-5" />}
+            label="Expire-Medicines"
+          />
+          <SidebarLink
+            to="/pharmacist-dashboard/create-medicine"
             icon={<FiList />}
             label="create-medicines"
           />
+          <SidebarLink
+            to="/pharmacist-dashboard/orderd-medicine"
+            icon={<ListOrdered />}
+            label="ordered-medicines"
+          />
+          <SidebarLink
+            to="/pharmacist-dashboard/all-equipment"
+            icon={<FaAllergies />}
+            label="all-equipment"
+          />
+          <SidebarLink
+            to="/pharmacist-dashboard/create-equipment"
+            icon={<Podcast />}
+            label="create-equipment"
+          />
+
           <SidebarLink
             icon={<FiLogOut />}
             label="Logout"
@@ -61,7 +83,6 @@ const PharmacistSidebar = ({ children }: AdminSidebarProps) => {
         </nav>
       </div>
 
-      {/* Toggle button for mobile */}
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <button
           className="text-white bg-gray-800 p-2 rounded-md shadow-md"
@@ -71,7 +92,6 @@ const PharmacistSidebar = ({ children }: AdminSidebarProps) => {
         </button>
       </div>
 
-      {/* Content Area */}
       <div className="flex-1 lg:ml-64 p-6 w-full">{children}</div>
     </div>
   );

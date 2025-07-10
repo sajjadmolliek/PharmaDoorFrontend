@@ -3,39 +3,53 @@ import { useEffect, useState } from "react";
 import SafetyAdvice from "../OtcMedicine/SafetyAdvice";
 import AdditionalOffer from "../OtcMedicine/AdditionalOffer";
 import brandImage from "../../../assets/brand1.png";
+import toast from "react-hot-toast";
+import { ScaleLoader } from "react-spinners";
 
 type NapaMedicine = {
-  id: number;
+  _id: string;
   name: string;
-  generic: string;
-  strength: string;
-  form: string;
-  manufacturer: string;
-  uses: string[];
+  brand: string;
+  stock: string;
   price: string;
-  image: string;
-  category: string;
+  medicineImage: string;
 };
 
 const NapaDetailsPage = () => {
-  const { id } = useParams();
+  const { _id } = useParams();
   const [medicine, setMedicine] = useState<NapaMedicine | null>(null);
 
   useEffect(() => {
-    fetch("/napa-secloallmedicine.json")
+    fetch("http://localhost:5000/api/v1/medicine")
       .then((res) => res.json())
-      .then((data: NapaMedicine[]) => {
-        const found = data.find((item) => item.id === Number(id));
+      .then((resData) => {
+        console.log("API response:", resData);
+        console.log("Current ID from URL:", _id);
+        const found = resData.data.find(
+          (item: NapaMedicine) => item._id === _id
+        );
         setMedicine(found || null);
       })
+
       .catch((err) => console.error("Failed to load details:", err));
-  }, [id]);
+  }, [_id]);
 
   if (!medicine) {
     return (
-      <div className="text-center mt-10 text-red-600">Loading or Not Found</div>
+      <div className="text-center mt-10 text-red-600">
+        <ScaleLoader color="#2cabab" height={12} />
+      </div>
     );
   }
+
+  const handleAddToCart = () => {
+    const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+    toast.success("added medicine to cart");
+    const updatedCart = [...existingCart, medicine];
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+    window.dispatchEvent(new Event("cartUpdated"));
+  };
 
   return (
     <div className="mt-6 px-4">
@@ -43,7 +57,7 @@ const NapaDetailsPage = () => {
         {/* Left Column */}
         <div className="w-full md:w-1/2 flex flex-col items-center">
           <img
-            src={medicine.image}
+            src={medicine.medicineImage}
             alt={medicine.name}
             className="w-60 h-60 object-contain mb-4"
           />
@@ -67,13 +81,13 @@ const NapaDetailsPage = () => {
 
           <p className="text-gray-700 font-bold flex items-center gap-2">
             <img src={brandImage} alt="Brand" className="w-6 h-6" />
-            <span className="text-emerald-500">{medicine.manufacturer}</span>
+            <span className="text-emerald-500">{medicine.brand}</span>
           </p>
 
           <p className="text-gray-800 font-bold">
-            Generic:{" "}
+            Stock:{" "}
             <span className="text-emerald-500 font-semibold">
-              {medicine.generic}
+              {medicine.stock}
             </span>
           </p>
 
@@ -85,19 +99,15 @@ const NapaDetailsPage = () => {
           </p>
 
           <p className="font-bold">
-            Category:{" "}
-            <span className="text-emerald-500">{medicine.category}</span>
+            Brand: <span className="text-emerald-500">{medicine.brand}</span>
           </p>
 
-          <p className="font-bold">
-            Form: <span className="text-emerald-500">{medicine.form}</span>
-          </p>
-
-          <Link to="/cart">
-            <button className="btn bg-[#0E7673] text-white w-full">
-              Add-To-Cart
-            </button>
-          </Link>
+          <button
+            onClick={handleAddToCart}
+            className="btn bg-[#0E7673] text-white w-full"
+          >
+            Add-To-Cart
+          </button>
 
           {/* Additional Offer */}
           <div>

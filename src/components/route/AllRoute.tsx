@@ -4,7 +4,7 @@ import ErrorPage from "../Pages/Error/Error";
 import HomePage from "../Pages/Home/Home";
 import NapaMedicines from "../Pages/Medicines/Napa";
 import SecloMedicines from "../Pages/Medicines/Seclo";
-import MonusMedicines from "../Pages/Products/Monus";
+
 import StethoscopePage from "../Pages/Equipments/Stethoscope";
 import ThermomiterPage from "../Pages/Equipments/Thermomiter";
 import OnlineDoctors from "../Pages/OnlineDoctor/OnlineDoctors";
@@ -18,7 +18,7 @@ import AllProducts from "../Pages/Products/AllProducts";
 import AllProductDetails from "../Pages/Products/AllProductDetails";
 import StethoscopeDetails from "../Pages/Equipments/StethoscopeDetails";
 import ThermomiterDetails from "../Pages/Equipments/ThermomiterDetails";
-import ProtectedRoute from "../ProtectedRoute";
+// import ProtectedRoute from "../ProtectedRoute";
 import AdminMainLayout from "../Pages/dashboard/AdminMainLayout";
 import AdminDashboard from "../Pages/dashboard/AdminDashboard";
 import ProductPage from "../Pages/dashboard/ProductPage";
@@ -35,7 +35,20 @@ import UpdateAllUser from "../Pages/dashboard/UpdateAllUser";
 import UpdatePharmacist from "../Pages/dashboard/UpdatePharmacist";
 import PharmacistProfile from "../Pages/pharmasistDashboard/PharmacistProfile";
 import CreateMedicine from "../Pages/pharmasistDashboard/CreateMedicine";
-// import AdminProtectedRoute from "../Pages/dashboard/AdminProtectedRoute";
+import AllMedicinePage from "../Pages/pharmasistDashboard/AllMedicinePage";
+import ExpireAllMedicine from "../Pages/pharmasistDashboard/ExpireAllMedicine";
+import UpdateExpireMedicines from "../Pages/pharmasistDashboard/UpdateExpireMedicines";
+import UpdateMedicine from "../Pages/pharmasistDashboard/UpdateMedicine";
+import ContactPage from "../Pages/contactPage/ContactPage";
+import AddToCard from "../Pages/AddToCart/AddToCard";
+import Checkout from "../Pages/AddToCart/CheckOut";
+import OrderedMedicine from "../Pages/pharmasistDashboard/OrderedMedicine";
+import Invoice from "../Pages/pharmasistDashboard/Invoice";
+import CreateEquipments from "../Pages/pharmasistDashboard/CreateEquipments";
+
+import AllEquipmentPage from "../Pages/pharmasistDashboard/AllEquipmentPage";
+import UpdateEquemment from "../Pages/pharmasistDashboard/UpdateEquemment";
+import ProtectedRoute from "../ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -50,9 +63,9 @@ const router = createBrowserRouter([
       {
         path: "/medicines/napa",
         element: (
-          <ProtectedRoute>
-            <NapaMedicines />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <NapaMedicines />
+          // </ProtectedRoute>
         ),
       },
       {
@@ -68,7 +81,11 @@ const router = createBrowserRouter([
         element: <PhermacistRegister />,
       },
       {
-        path: "/medicines/napaDetails/:id",
+        path: "/contact-page",
+        element: <ContactPage />,
+      },
+      {
+        path: "/medicines/napaDetails/:_id",
         element: <NapaDetailsPage />,
       },
       {
@@ -76,19 +93,29 @@ const router = createBrowserRouter([
         element: <SecloMedicines />,
       },
       {
-        path: "/medicines/secloDetails/:id",
+        path: "/medicines/secloDetails/:_id",
         element: <SeclodetailsPage />,
       },
       {
-        path: "/products/monas",
-        element: <MonusMedicines />,
+        path: "/medicines/add-to-cart",
+        element: <AddToCard />,
       },
+      {
+        path: "/medicines/checkout",
+        element: (
+          <ProtectedRoute>
+            {" "}
+            <Checkout />
+          </ProtectedRoute>
+        ),
+      },
+
       {
         path: "/products/all-products",
         element: <AllProducts />,
       },
       {
-        path: "/products/:id",
+        path: "/products/:_id",
         element: <AllProductDetails />,
       },
       {
@@ -96,7 +123,7 @@ const router = createBrowserRouter([
         element: <StethoscopePage />,
       },
       {
-        path: "/equipments/:id",
+        path: "/equipments/:_id",
         element: <StethoscopeDetails />,
       },
       {
@@ -122,7 +149,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/dashboard",
+    path: "/admin-dashboard",
     element: (
       <AdminProtectedRoute>
         {" "}
@@ -132,41 +159,41 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "admin-dashboard",
+        path: "",
         element: <AdminDashboard />,
       },
       {
-        path: "admin-dashboard/all-users",
+        path: "all-users",
         element: <AllUsers />,
       },
       {
-        path: "admin-dashboard/all-pharmacist",
+        path: "all-pharmacist",
         element: <AllRegisterPhaemacist />,
       },
       {
-        path: "admin-dashboard/all-document",
+        path: "all-document",
         element: <PharmacistDocument />,
       },
       {
-        path: "admin-dashboard/all-users/:_id",
+        path: "all-users/:_id",
         element: <UpdateAllUser />,
       },
       {
-        path: "admin-dashboard/all-pharmacist/:_id",
+        path: "all-pharmacist/:_id",
         element: <UpdatePharmacist />,
       },
       {
-        path: "admin-dashboard/products",
+        path: "products",
         element: <ProductPage />,
       },
       {
-        path: "admin-dashboard/create-product",
+        path: "create-product",
         element: <Createproduct />,
       },
     ],
   },
   {
-    path: "/Pdashboard",
+    path: "/pharmacist-dashboard",
     element: (
       <PharmacistProtectedRoute>
         <PharmasistMainLayout />
@@ -175,20 +202,52 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "pharmacist-dashboard",
+        path: "",
         element: <PharmasistsDashboard />,
       },
       {
-        path: "pharmacist-dashboard/products",
-        element: <ProductPage />,
+        path: "all-medicine",
+        element: <AllMedicinePage />,
       },
       {
-        path: "pharmacist-dashboard/create-medicine",
+        path: "update-specific-medicine/:_id",
+        element: <UpdateMedicine />,
+      },
+      {
+        path: "create-medicine",
         element: <CreateMedicine />,
       },
       {
-        path: "pharmacist-dashboard/profile",
+        path: "orderd-medicine",
+        element: <OrderedMedicine />,
+      },
+      {
+        path: "invoice-medicine/:_id",
+        element: <Invoice />,
+      },
+      {
+        path: "profile",
         element: <PharmacistProfile />,
+      },
+      {
+        path: "expire-medicines",
+        element: <ExpireAllMedicine />,
+      },
+      {
+        path: "update-expire-medicines/:_id",
+        element: <UpdateExpireMedicines />,
+      },
+      {
+        path: "create-equipment",
+        element: <CreateEquipments />,
+      },
+      {
+        path: "all-equipment",
+        element: <AllEquipmentPage />,
+      },
+      {
+        path: "update-equipment/:_id",
+        element: <UpdateEquemment />,
       },
     ],
   },

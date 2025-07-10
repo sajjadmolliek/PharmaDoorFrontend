@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 type MedicalProduct = {
-  id: number;
+  _id: number;
   name: string;
   brand: string;
   category: string;
@@ -10,36 +12,45 @@ type MedicalProduct = {
   stock_quantity: number;
   rating: number;
   color: string;
-  image: string;
+
+  medicineImage: string;
 };
-
+type OutletContextType = {
+  searchText: string;
+};
 const ThermomiterPage = () => {
+  const { searchText } = useOutletContext<OutletContextType>();
   const [medicalProducts, setMedicalProducts] = useState<MedicalProduct[]>([]);
-
   useEffect(() => {
-    fetch("/equipment.json")
+    AOS.init({ duration: 1000 });
+  }, []);
+  useEffect(() => {
+    fetch("http://localhost:5000/api/v1/equipment")
       .then((res) => res.json())
       .then((data) => {
-        const allMedicatProduct = data.filter((item: MedicalProduct) =>
-          item.category.toLowerCase().includes("thermometer")
+        const allMedicatProduct = data.data.filter((item: MedicalProduct) =>
+          item.category.toLowerCase().includes(searchText.toLowerCase())
         );
         setMedicalProducts(allMedicatProduct);
       });
-  }, []);
+  }, [searchText]);
   return (
     <div>
       <div className="px-4 py-8 bg-gray-50 min-h-screen">
         <h1 className="text-3xl font-bold text-center text-blue-600 mb-8">
           Thermomiter Equipments
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div
+          data-aos="fade-up"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+        >
           {medicalProducts.map((equipment) => (
             <div
-              key={equipment.id}
+              key={equipment._id}
               className="bg-white border rounded-xl shadow-md hover:shadow-lg transition duration-200 overflow-hidden"
             >
               <img
-                src={equipment.image}
+                src={equipment.medicineImage}
                 alt={equipment.name}
                 className="w-full h-40 object-cover"
               />
@@ -53,7 +64,7 @@ const ThermomiterPage = () => {
                 <p className="text-base font-bold text-green-600">
                   {equipment.price} Tk
                 </p>
-                <Link to={`/equipments/${equipment.id}`}>
+                <Link to={`/equipments/${equipment._id}`}>
                   <button className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white text-sm py-2 rounded-md">
                     View Details
                   </button>

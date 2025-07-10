@@ -9,14 +9,15 @@ import { CloudUpload } from "lucide-react";
 type FormValues = {
   name: string;
   brand: string;
+  category: string;
   price: number;
-  stock: number;
-  manufactureDate: string;
-  expiryDate: string;
+  stock_quantity: number;
+  rating?: number;
+  color: string;
   medicineImage: FileList;
 };
 
-const CreateMedicine = () => {
+const CreateEquipments = () => {
   const { user } = useAuth();
   const _id = user?._id;
   const name = user?.name;
@@ -28,6 +29,7 @@ const CreateMedicine = () => {
     reset,
     formState: { errors },
   } = useForm<FormValues>();
+
   const navigate = useNavigate();
 
   const onSubmit = async (data: FormValues) => {
@@ -50,17 +52,18 @@ const CreateMedicine = () => {
       const payload = {
         name: data.name,
         brand: data.brand,
+        category: data.category,
         price: Number(data.price),
-        stock: Number(data.stock),
-        manufactureDate: new Date(data.manufactureDate),
-        expiryDate: new Date(data.expiryDate),
+        stock_quantity: Number(data.stock_quantity),
+        rating: data.rating ? Number(data.rating) : 0,
+        color: data.color,
         medicineImage: imageUrl,
         createdBy: { _id: String(_id), name, email },
       };
 
       const token = localStorage.getItem("accessToken");
       const response = await axios.post(
-        "http://localhost:5000/api/v1/medicine",
+        "http://localhost:5000/api/v1/equipment/create-equipment",
         payload,
         {
           headers: { Authorization: `${token}` },
@@ -68,13 +71,13 @@ const CreateMedicine = () => {
       );
 
       if (response) {
-        toast.success("Medicine created successfully!");
+        toast.success("Equipment created successfully!");
         reset();
-        navigate("/pharmacist-dashboard/all-medicine");
+        navigate("/pharmacist-dashboard/all-equipment");
       }
     } catch (error: any) {
       toast.error(
-        error?.response?.data?.message || "Failed to create medicine"
+        error?.response?.data?.message || "Failed to create equipment"
       );
     }
   };
@@ -82,7 +85,7 @@ const CreateMedicine = () => {
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
       <h2 className="text-2xl font-semibold mb-6 text-center">
-        Add New Medicine
+        Add New Equipment
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -93,7 +96,7 @@ const CreateMedicine = () => {
             type="text"
             {...register("name", { required: "Name is required" })}
             className="w-full border p-2 rounded"
-            placeholder="Enter medicine name"
+            placeholder="Enter equipment name"
           />
           {errors.name && (
             <p className="text-red-500 text-sm">{errors.name.message}</p>
@@ -114,6 +117,20 @@ const CreateMedicine = () => {
           )}
         </div>
 
+        {/* Category */}
+        <div>
+          <label className="block font-medium">Category</label>
+          <input
+            type="text"
+            {...register("category", { required: "Category is required" })}
+            className="w-full border p-2 rounded"
+            placeholder="Enter category"
+          />
+          {errors.category && (
+            <p className="text-red-500 text-sm">{errors.category.message}</p>
+          )}
+        </div>
+
         {/* Price */}
         <div>
           <label className="block font-medium">Price</label>
@@ -131,59 +148,62 @@ const CreateMedicine = () => {
           )}
         </div>
 
-        {/* Stock */}
+        {/* Stock Quantity */}
         <div>
-          <label className="block font-medium">Stock</label>
+          <label className="block font-medium">Stock Quantity</label>
           <input
             type="number"
-            {...register("stock", {
-              required: "Stock is required",
+            {...register("stock_quantity", {
+              required: "Stock quantity is required",
               min: { value: 0, message: "Stock must be positive" },
             })}
             className="w-full border p-2 rounded"
             placeholder="Enter stock quantity"
           />
-          {errors.stock && (
-            <p className="text-red-500 text-sm">{errors.stock.message}</p>
-          )}
-        </div>
-
-        {/* Manufacture Date */}
-        <div>
-          <label className="block font-medium">Manufacture Date</label>
-          <input
-            type="date"
-            {...register("manufactureDate", {
-              required: "Manufacture date is required",
-            })}
-            className="w-full border p-2 rounded"
-          />
-          {errors.manufactureDate && (
+          {errors.stock_quantity && (
             <p className="text-red-500 text-sm">
-              {errors.manufactureDate.message}
+              {errors.stock_quantity.message}
             </p>
           )}
         </div>
 
-        {/* Expiry Date */}
+        {/* Rating (optional) */}
         <div>
-          <label className="block font-medium">Expiry Date</label>
+          <label className="block font-medium">Rating (optional)</label>
           <input
-            type="date"
-            {...register("expiryDate", {
-              required: "Expiry date is required",
+            type="number"
+            step="0.1"
+            min="0"
+            max="5"
+            {...register("rating", {
+              min: { value: 0, message: "Minimum rating is 0" },
+              max: { value: 5, message: "Maximum rating is 5" },
             })}
             className="w-full border p-2 rounded"
+            placeholder="Enter rating (0 - 5)"
           />
-          {errors.expiryDate && (
-            <p className="text-red-500 text-sm">{errors.expiryDate.message}</p>
+          {errors.rating && (
+            <p className="text-red-500 text-sm">{errors.rating.message}</p>
+          )}
+        </div>
+
+        {/* Color */}
+        <div>
+          <label className="block font-medium">Color</label>
+          <input
+            type="text"
+            {...register("color", { required: "Color is required" })}
+            className="w-full border p-2 rounded"
+            placeholder="Enter color"
+          />
+          {errors.color && (
+            <p className="text-red-500 text-sm">{errors.color.message}</p>
           )}
         </div>
 
         {/* Medicine Image */}
-
         <div>
-          <label className="block font-medium mb-1">Medicine Image</label>
+          <label className="block font-medium mb-1">Equipment Image</label>
           <div className="relative w-full">
             <input
               type="file"
@@ -213,4 +233,4 @@ const CreateMedicine = () => {
   );
 };
 
-export default CreateMedicine;
+export default CreateEquipments;

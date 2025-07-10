@@ -64,7 +64,7 @@ const UpdatePharmacist = () => {
       if (hasStatusChanged) {
         toast.success(`User status updated to "${status}"`);
       }
-      nevigate("/dashboard/admin-dashboard/all-pharmacist");
+      nevigate("/admin-dashboard/all-pharmacist");
     } catch (error) {
       console.error("Failed to update user role", error);
       toast.error("Error updating role");

@@ -129,9 +129,7 @@ const AllRegisterPharmacist = () => {
                 </td>
 
                 <td className="p-2 border space-x-2 text-center text-xs sm:text-sm">
-                  <Link
-                    to={`/dashboard/admin-dashboard/all-pharmacist/${user._id}`}
-                  >
+                  <Link to={`/admin-dashboard/all-pharmacist/${user._id}`}>
                     <button className="bg-blue-500 cursor-pointer text-white px-2 py-1 rounded hover:bg-blue-600">
                       Update
                     </button>

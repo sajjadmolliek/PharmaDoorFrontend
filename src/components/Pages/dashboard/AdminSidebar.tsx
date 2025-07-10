@@ -1,14 +1,6 @@
 import { type ReactNode, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import {
-  FiHome,
-  FiGrid,
-  FiBox,
-  FiList,
-  FiLogOut,
-  FiMenu,
-  FiUser,
-} from "react-icons/fi";
+import { FiHome, FiGrid, FiLogOut, FiMenu, FiUser } from "react-icons/fi";
 import { AiFillMedicineBox } from "react-icons/ai";
 import { Verified } from "lucide-react";
 import { useAuth } from "../privateRoute/AuthContext";
@@ -27,40 +19,38 @@ const AdminSidebar = ({ children }: AdminSidebarProps) => {
     navigate("/login");
   };
 
-  // Sidebar link data to avoid repetition
   const sidebarLinks = [
     { to: "/", icon: <FiHome />, label: "Home", exact: true },
-    { to: "/dashboard/admin-dashboard", icon: <FiGrid />, label: "Dashboard" },
+    { to: "/admin-dashboard", icon: <FiGrid />, label: "Dashboard" },
     {
-      to: "/dashboard/admin-dashboard/all-users",
+      to: "/admin-dashboard/all-users",
       icon: <FiUser />,
       label: "All Users",
     },
     {
-      to: "/dashboard/admin-dashboard/all-pharmacist",
+      to: "/admin-dashboard/all-pharmacist",
       icon: <AiFillMedicineBox />,
       label: "Total Pharmacist",
     },
     {
-      to: "/dashboard/admin-dashboard/all-document",
+      to: "/admin-dashboard/all-document",
       icon: <Verified className="text-indigo-500" />,
       label: "Document Verification",
     },
-    {
-      to: "/dashboard/admin-dashboard/products",
-      icon: <FiBox />,
-      label: "Product",
-    },
-    {
-      to: "/dashboard/admin-dashboard/create-product",
-      icon: <FiList />,
-      label: "All Products",
-    },
+    // {
+    //   to: "/admin-dashboard/products",
+    //   icon: <FiBox />,
+    //   label: "Product",
+    // },
+    // {
+    //   to: "/admin-dashboard/create-product",
+    //   icon: <FiList />,
+    //   label: "All Products",
+    // },
   ];
 
   return (
     <div className="flex">
-      {/* Sidebar */}
       <aside
         className={`${
           isOpen ? "block" : "hidden"
@@ -88,7 +78,6 @@ const AdminSidebar = ({ children }: AdminSidebarProps) => {
         </nav>
       </aside>
 
-      {/* Mobile Toggle Button */}
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <button
           className="text-white bg-gray-800 p-2 rounded-md shadow-md"
@@ -98,7 +87,6 @@ const AdminSidebar = ({ children }: AdminSidebarProps) => {
         </button>
       </div>
 
-      {/* Main Content */}
       <main className="flex-1 lg:ml-64 p-6 w-full">{children}</main>
     </div>
   );

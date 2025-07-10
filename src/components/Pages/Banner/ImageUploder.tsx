@@ -1,6 +1,7 @@
 import image1 from "../../../assets/Image (2).png";
 import productImage from "../../../assets/product.png";
 import callImage from "../../../assets/download.png";
+import { Link } from "react-router-dom";
 const ImageUploder = () => {
   const productImageStyle = {
     height: "100px",
@@ -28,7 +29,9 @@ const ImageUploder = () => {
       <div className="flex bg-base-100  shadow-2xl mt-4 h-52 items-center gap-4 p-2">
         <div className="mt-18">
           <p>Help Line</p>
-          <button className="btn btn-accent mt-2">Call Now</button>
+          <Link to="/contact-page">
+            <button className="btn btn-accent mt-2">Call Now</button>
+          </Link>
         </div>
         <div>
           <img style={productImageStyle} src={callImage} alt="call" />

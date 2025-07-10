@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import brandImage from "../../../assets/brand1.png";
 import SafetyAdvice from "../OtcMedicine/SafetyAdvice";
 import AdditionalOffer from "../OtcMedicine/AdditionalOffer";
+import toast from "react-hot-toast";
 
 type MedicalProduct = {
   id: number;
@@ -14,28 +15,43 @@ type MedicalProduct = {
   stock_quantity: number;
   rating: number;
   color: string;
-  image: string;
+
+  medicineImage: string;
 };
 
 const ThermomiterDetails = () => {
-  const { id } = useParams();
+  const { _id } = useParams();
   const [equipment, setEquipment] = useState<MedicalProduct | null>(null);
 
   useEffect(() => {
-    fetch("/equipment.json")
+    fetch(`http://localhost:5000/api/v1/equipment/${_id}`)
       .then((res) => res.json())
-      .then((data: MedicalProduct[]) => {
-        const found = data.find((item) => item.id === Number(id));
-        setEquipment(found || null);
+      .then((data) => {
+        setEquipment(data.data || null);
       })
       .catch((err) => console.error("Failed to load details:", err));
-  }, [id]);
+  }, [_id]);
 
   if (!equipment) {
     return (
       <div className="text-center mt-10 text-red-600">Loading or Not Found</div>
     );
   }
+  const handleAddToCart = () => {
+    const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    const productWithModel = {
+      ...equipment,
+      quantity: 1,
+      model: "equipment",
+    };
+
+    const updatedCart = [...existingCart, productWithModel];
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+    toast.success("✅ Equipment added to cart");
+    window.dispatchEvent(new Event("cartUpdated"));
+  };
 
   return (
     <div className="mt-6 px-4">
@@ -43,7 +59,7 @@ const ThermomiterDetails = () => {
         {/* Image + Safety Advice */}
         <div className="flex flex-col items-center w-full lg:w-1/2">
           <img
-            src={equipment.image}
+            src={equipment.medicineImage}
             alt={equipment.name}
             className="w-64 h-64 object-contain mb-4"
           />
@@ -88,11 +104,12 @@ const ThermomiterDetails = () => {
             <span className="text-emerald-500 ml-2">{equipment.color}</span>
           </p>
 
-          <Link to="/cart">
-            <button className="btn bg-[#0E7673] text-white w-full">
-              Add To Cart
-            </button>
-          </Link>
+          <button
+            onClick={handleAddToCart}
+            className="btn bg-[#0E7673] text-white w-full"
+          >
+            Add To Cart
+          </button>
 
           {/* Extra */}
           <div>

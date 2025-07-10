@@ -16,10 +16,11 @@ const Register = () => {
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\d])(?=.*[\W_]).{8,}$/;
+
     if (!passwordRegex.test(password)) {
       toast.error(
-        "Password must be at least 8 characters long, include one uppercase and one lowercase letter."
+        "Password must be at least 8 characters long, include one uppercase and one lowercase letter and one speacial charecter"
       );
       return;
     }
@@ -28,7 +29,7 @@ const Register = () => {
       email,
       password,
     };
-    // http://localhost:5000/
+
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/users/create-user",

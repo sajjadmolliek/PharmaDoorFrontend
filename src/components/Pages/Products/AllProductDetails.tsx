@@ -3,49 +3,60 @@ import { Link, useParams } from "react-router-dom";
 import AdditionalOffer from "../OtcMedicine/AdditionalOffer";
 import brandImage from "../../../assets/brand1.png";
 import SafetyAdvice from "../OtcMedicine/SafetyAdvice";
+import toast from "react-hot-toast";
+import { ScaleLoader } from "react-spinners";
 
 type MedicineDetails = {
-  id: number;
+  _id: string;
   name: string;
-  generic: string;
-  strength: string;
-  form: string;
-  manufacturer: string;
-  uses: string[];
+  brand: string;
+  stock: string;
   price: string;
-  image: string;
-  category: string;
+  medicineImage: string;
 };
 
 const AllProductDetails = () => {
-  const { id } = useParams();
+  const { _id } = useParams();
   const [medicine, setMedicine] = useState<MedicineDetails | null>(null);
 
   useEffect(() => {
-    fetch("/napa-secloallmedicine.json")
+    fetch("http://localhost:5000/api/v1/medicine")
       .then((res) => res.json())
-      .then((data: MedicineDetails[]) => {
-        const found = data.find((item) => item.id === Number(id));
-        setMedicine(found || null);
+      .then((result) => {
+        const medicines = result.data;
+        if (Array.isArray(medicines)) {
+          const found = medicines.find((item) => item._id === _id);
+          setMedicine(found || null);
+        } else {
+          console.error("Expected medicines array but got:", medicines);
+          setMedicine(null);
+        }
       })
       .catch((err) => console.error("Failed to load details:", err));
-  }, [id]);
+  }, [_id]);
 
   if (!medicine) {
     return (
-      <div className="text-center mt-10 text-red-600">
-        Loading or Not Found data
+      <div className="flex justify-center mt-20">
+        <ScaleLoader color="#2cabab" height={12} />
       </div>
     );
   }
+  const handleAddToCart = () => {
+    const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+    toast.success("added medicine to cart");
+    const updatedCart = [...existingCart, medicine];
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
 
+    window.dispatchEvent(new Event("cartUpdated"));
+  };
   return (
     <div className="mt-4 px-4 md:px-10 lg:px-20">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* Image and Safety */}
         <div className="flex flex-col items-center">
           <img
-            src={medicine.image}
+            src={medicine.medicineImage}
             alt={medicine.name}
             className="w-60 h-60 object-contain mb-4"
           />
@@ -69,12 +80,7 @@ const AllProductDetails = () => {
 
           <p className="flex items-center gap-2 font-bold text-gray-700 mb-3">
             <img src={brandImage} alt="Brand" className="w-5 h-5" />
-            <span className="text-emerald-500">{medicine.manufacturer}</span>
-          </p>
-
-          <p className="text-gray-800 font-bold mb-2">
-            Generic:{" "}
-            <span className="text-emerald-500">{medicine.generic}</span>
+            <span className="text-emerald-500">{medicine.brand}</span>
           </p>
 
           <p className="text-gray-800 font-bold mb-2">
@@ -82,20 +88,19 @@ const AllProductDetails = () => {
           </p>
 
           <p className="text-gray-800 font-bold mb-2">
-            Category:{" "}
-            <span className="text-emerald-500">{medicine.category}</span>
+            Brand: <span className="text-emerald-500">{medicine.brand}</span>
           </p>
-
           <p className="text-gray-800 font-bold mb-2">
-            Form: <span className="text-emerald-500">{medicine.form}</span>
+            Stock: <span className="text-emerald-500">{medicine.stock}</span>
           </p>
 
           <div className="mt-4">
-            <Link to="/cart">
-              <button className="btn bg-[#0E7673] text-white w-full">
-                Add To Cart
-              </button>
-            </Link>
+            <button
+              onClick={handleAddToCart}
+              className="btn bg-[#0E7673] text-white w-full"
+            >
+              Add To Cart
+            </button>
           </div>
 
           <div className="mt-6">
