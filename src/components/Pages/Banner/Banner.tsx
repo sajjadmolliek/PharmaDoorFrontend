@@ -8,6 +8,7 @@ import medicalImage from "../../../assets/medical-deliver-app.webp";
 // import logo1 from "../../../assets/Image.png";
 import logo2 from "../../../assets/medicine-delivery.jpg";
 import logo3 from "../../../assets/maxresdefault.jpg";
+
 const BannerPage = () => {
   const imazeStyle = {
     height: "450px",

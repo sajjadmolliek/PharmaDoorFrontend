@@ -37,7 +37,7 @@ const PharmacistSidebar = ({ children }: AdminSidebarProps) => {
           Pharmacist Panel
         </h2>
 
-        <nav className="flex flex-col gap-3">
+        <nav className="flex flex-col gap-3" onClick={() => setIsOpen(false)}>
           <SidebarLink to="/" icon={<FiHome />} label="Home" />
           <SidebarLink
             to="/pharmacist-dashboard"

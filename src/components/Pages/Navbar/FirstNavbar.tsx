@@ -1,6 +1,6 @@
 import image1 from "../../../assets/Image2.png";
 import image2 from "../../../assets/Image (1).png";
-import { FcBusinessman } from "react-icons/fc";
+// import { FcBusinessman } from "react-icons/fc";
 import SecondNavbar from "./SecondNavbar";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -62,21 +62,19 @@ const FirstNavbar: React.FC<FirstNavbarProps> = ({
           {user ? (
             <button
               onClick={handlelogout}
-              className="btn btn-error btn-sm hidden sm:inline-block text-xs"
+              className="btn btn-error btn-sm text-xs"
             >
               Logout
             </button>
           ) : (
             <Link to="/login">
-              <button className="btn btn-success btn-sm hidden sm:inline-block text-xs">
-                Login
-              </button>
+              <button className="btn btn-success btn-sm text-xs">Login</button>
             </Link>
           )}
 
-          <div className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center bg-gray-100">
+          {/* <div className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center bg-gray-100">
             <FcBusinessman size={18} />
-          </div>
+          </div> */}
         </div>
       </div>
 
