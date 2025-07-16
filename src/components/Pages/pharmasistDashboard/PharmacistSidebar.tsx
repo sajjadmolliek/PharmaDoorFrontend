@@ -11,6 +11,7 @@ import {
 import { useAuth } from "../privateRoute/AuthContext";
 import { Clock, ListOrdered, Podcast } from "lucide-react";
 import { FaAllergies } from "react-icons/fa";
+import { MdWarningAmber } from "react-icons/md";
 
 interface AdminSidebarProps {
   children?: ReactNode;
@@ -53,6 +54,11 @@ const PharmacistSidebar = ({ children }: AdminSidebarProps) => {
             to="/pharmacist-dashboard/expire-medicines"
             icon={<Clock className="text-red-600 w-5 h-5" />}
             label="Expire-Medicines"
+          />
+          <SidebarLink
+            to="/pharmacist-dashboard/pre-expire-medicine"
+            icon={<MdWarningAmber className="text-red-600 w-5 h-5" />}
+            label="Pre-Expire-Medicines"
           />
           <SidebarLink
             to="/pharmacist-dashboard/create-medicine"

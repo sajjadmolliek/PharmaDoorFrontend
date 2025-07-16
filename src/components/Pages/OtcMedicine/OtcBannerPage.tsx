@@ -1,51 +1,72 @@
+import { motion } from "framer-motion";
 import OtcImage from "../../../assets/otcbanner.png";
+
+const features = [
+  {
+    title: "On Call Doctor",
+    description:
+      "Our expert and cooperative doctors are available on call to provide you with fast and helpful advice.",
+  },
+  {
+    title: "e-Diagnosis",
+    description:
+      "Osudpotro offers the best online diagnosis service with fast response, quick sample collection, digital reports, and free doctor consultation.",
+  },
+  {
+    title: "Dedicated Call Center",
+    description:
+      "Our call center is operated by experienced teleconsultants available 24/7 to serve all customers efficiently.",
+  },
+];
 
 const OtcBannerPage = () => {
   return (
-    <div>
+    <div className="px-4 py-10 max-w-7xl mx-auto">
+      {/* OTC Banner Section */}
       <div
-        className="flex flex-wrap items-center justify-evenly mx-auto gap-2 "
+        className="flex flex-col md:flex-row items-center justify-center gap-6 rounded-lg p-6 bg-cover bg-center text-white"
         style={{
           backgroundImage: "url('https://i.ibb.co/d09Q7hwr/otcbacground.png')",
         }}
       >
-        <img src={OtcImage} alt="image" />
-        <h1 className="text-4xl font-bold">
-          OTC <br />
-          Medicines
-        </h1>
-        <p className="w-80">
-          QICmedicine refers to the medicine which anyone con buywithout a
-          prescription. Peopletake QTCmedicines to treat heath issues without a
-          prescription. OTC mediciestroat a variety of Mnesses andtheirsymptoms,
-          Includingpain,coughsand colds, diarrhea, constipation, ache, and
-          others
-        </p>
+        <img
+          src={OtcImage}
+          alt="OTC Banner"
+          className="w-60 md:w-80 object-contain"
+        />
+
+        <div className="text-center md:text-left max-w-xl">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-3">OTC Medicines</h1>
+          <p className="text-sm sm:text-base leading-relaxed text-white/90">
+            OTC medicine refers to the medicines that can be bought without a
+            prescription. People use OTC products to treat common health issues
+            like pain, colds, coughs, diarrhea, constipation, fever, and other
+            minor ailments.
+          </p>
+        </div>
       </div>
 
-      <div className="mt-6">
-        <h1 className="text-xl font-bold">On Call Doctor</h1>
-        <p>
-          Our expert and coper <br />
-          dicine Services as well
-        </p>
-        <h1 className="text-xl font-bold">e-Diagnosis</h1>
-        <p>
-          osudpotro provides the Best Online Dlagnosis, Patients can got
-          alltests done from the comfort of thelr home,osudpotro brings the
-          fastest response and qulckest Test Somple Collection process possible,
-          <br />
-          User con choose from a list of lab tests, get samples collected from
-          home, get their results via email or app and also get free Online
-          Doctor Consultoncy, We provide the Best Digital Dlagnosis allover
-          Dhako
-        </p>
-        <h1 className="mt-2 text-xl font-bold">Dedicated Call Center</h1>
-        <p>
-          Cur Call Conter is operated by Experienced Teleconsultants and are{" "}
-          <br />
-          always there to serve allcustomners at alltimes.
-        </p>
+      {/* Cards Section */}
+      <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {features.map((feature, index) => (
+          <motion.div
+            key={index}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            viewport={{ once: true }}
+            className="bg-white shadow-md rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300"
+          >
+            <h2 className="text-xl font-semibold text-violet-600 mb-3">
+              {feature.title}
+            </h2>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              {feature.description}
+            </p>
+          </motion.div>
+        ))}
       </div>
     </div>
   );

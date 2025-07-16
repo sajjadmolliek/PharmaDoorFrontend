@@ -61,7 +61,6 @@ const UpdateEquipment = () => {
     fetchEquipment();
   }, [_id]);
 
-  // Input handler
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
 

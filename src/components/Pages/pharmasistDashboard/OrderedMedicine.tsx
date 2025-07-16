@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../privateRoute/AuthContext";
 import { Link } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
+import axios from "axios";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 const OrderedMedicine = () => {
   const [orders, setOrders] = useState<any[]>([]);
@@ -75,11 +78,43 @@ const OrderedMedicine = () => {
       </div>
     );
   }
+  const handleDelete = async (_id: any) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
 
+    if (result.isConfirmed) {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const res = await axios.delete(
+          `https://pharma-door-backend.vercel.app/api/v1/order/${_id}`,
+          {
+            headers: {
+              Authorization: `${token}`,
+            },
+          }
+        );
+
+        if (res.status === 200) {
+          toast.success("Medicine deleted successfully");
+          setOrders((prev) => prev.filter((item) => item._id !== _id));
+        }
+      } catch (err) {
+        console.error("Delete error:", err);
+        toast.error("Failed to delete medicine.");
+      }
+    }
+  };
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-8">
       <h1 className="text-2xl font-bold text-center mb-6 text-green-700">
-        🧾 Ordered Medicines (Your Medicines Only)
+        Ordered Medicines (Your Medicines Only)
       </h1>
 
       <div className="overflow-x-auto">
@@ -98,6 +133,8 @@ const OrderedMedicine = () => {
               <th className="px-4 py-2 border">Status</th>
               <th className="px-4 py-2 border">Payment</th>
               <th className="px-4 py-2 border">Date</th>
+              <th className="px-4 py-2 border">Update</th>
+              <th className="px-4 py-2 border">Delete</th>
               <th className="px-4 py-2 border">Invoice</th>
             </tr>
           </thead>
@@ -116,12 +153,48 @@ const OrderedMedicine = () => {
                   <td className="px-4 py-2 border">{item.quantity}</td>
                   <td className="px-4 py-2 border">{item.pharmacist}</td>
                   <td className="px-4 py-2 border">{order.totalPrice} TK</td>
-                  <td className="px-4 py-2 border">{order.status}</td>
+                  <td
+                    className={`px-4 py-2 border font-semibold text-white rounded 
+    ${
+      order.status === "Pending"
+        ? "bg-yellow-500"
+        : order.status === "Paid"
+        ? "bg-blue-500"
+        : order.status === "Shipped"
+        ? "bg-indigo-500"
+        : order.status === "Completed"
+        ? "bg-green-600"
+        : order.status === "Cancelled"
+        ? "bg-red-600"
+        : "bg-gray-400"
+    }
+           `}
+                  >
+                    {order.status}
+                  </td>
+
                   <td className="px-4 py-2 border">{order.paymentStatus}</td>
                   <td className="px-4 py-2 border">
                     {new Date(order.createdAt).toLocaleDateString()}
                   </td>
-                  <td>
+                  <td className="border px-2">
+                    <Link
+                      to={`/pharmacist-dashboard/update-orderd-status/${order._id}`}
+                    >
+                      <button className="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1 rounded text-xs">
+                        update
+                      </button>
+                    </Link>
+                  </td>
+                  <td className="border px-2">
+                    <button
+                      onClick={() => handleDelete(order._id)}
+                      className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs"
+                    >
+                      delete
+                    </button>
+                  </td>
+                  <td className="border px-2">
                     <Link
                       to={`/pharmacist-dashboard/invoice-medicine/${order._id}`}
                     >
@@ -136,7 +209,6 @@ const OrderedMedicine = () => {
           </tbody>
         </table>
 
-        {/* Pagination Controls */}
         <div className="flex justify-center items-center mt-6 gap-2">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}

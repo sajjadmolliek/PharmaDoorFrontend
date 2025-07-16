@@ -49,6 +49,11 @@ import CreateEquipments from "../Pages/pharmasistDashboard/CreateEquipments";
 import AllEquipmentPage from "../Pages/pharmasistDashboard/AllEquipmentPage";
 import UpdateEquemment from "../Pages/pharmasistDashboard/UpdateEquemment";
 import ProtectedRoute from "../ProtectedRoute";
+import PreExpiryNotification from "../Pages/pharmasistDashboard/PreExpiryNotification";
+import UpdatePreExpireMedicines from "../Pages/pharmasistDashboard/UpdatePreExpireMedicine";
+import PrescriptionUpload from "../Pages/Banner/PrescriptionUpload";
+import PrescribeMedicineDetails from "../Pages/Banner/PrescribeMedicineDetails";
+import OrderStatusUpdate from "../Pages/pharmasistDashboard/OrderStatusUpdate";
 
 const router = createBrowserRouter([
   {
@@ -71,6 +76,14 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/upload-prescription",
+        element: <PrescriptionUpload />,
+      },
+      {
+        path: "/prescription-medicine-details/:_id",
+        element: <PrescribeMedicineDetails />,
       },
       {
         path: "/register",
@@ -231,6 +244,10 @@ const router = createBrowserRouter([
         element: <OrderedMedicine />,
       },
       {
+        path: "update-orderd-status/:_id",
+        element: <OrderStatusUpdate />,
+      },
+      {
         path: "invoice-medicine/:_id",
         element: <Invoice />,
       },
@@ -257,6 +274,14 @@ const router = createBrowserRouter([
       {
         path: "update-equipment/:_id",
         element: <UpdateEquemment />,
+      },
+      {
+        path: "pre-expire-medicine",
+        element: <PreExpiryNotification />,
+      },
+      {
+        path: "update-pre-expire-medicine/:_id",
+        element: <UpdatePreExpireMedicines />,
       },
     ],
   },

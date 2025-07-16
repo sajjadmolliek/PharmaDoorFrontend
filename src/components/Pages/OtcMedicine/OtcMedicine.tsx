@@ -4,7 +4,9 @@ import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import OtcBannerPage from "./OtcBannerPage";
-import { Link } from "react-router-dom";
+import Review from "../Banner/Review";
+import SubscribeSection from "../Banner/SubscribeSection";
+// import { Link } from "react-router-dom";
 
 type Medicine = {
   id: number;
@@ -28,8 +30,8 @@ const OtcMedicine = () => {
 
   return (
     <div className="mt-5 px-4">
-      <h1 className="bg-gray-400 p-1 text-center mx-auto w-3/5"></h1>
-      <h1 className="text-center text-2xl font-bold mb-4 mt-3">
+      <h1 className="bg-linear-to-bl from-violet-500 to-fuchsia-500 p-1 text-center mx-auto w-3/5"></h1>
+      <h1 className="text-center mt-4 mb-4 text-xl sm:text-2xl font-bold  text-black  tracking-wide">
         OTC Medicines
       </h1>
 
@@ -37,7 +39,6 @@ const OtcMedicine = () => {
         spaceBetween={20}
         slidesPerView={1}
         pagination={{ clickable: true }}
-        // autoplay={{ delay: 3000, disableOnInteraction: false }}
         breakpoints={{
           640: { slidesPerView: 1 },
           768: { slidesPerView: 2 },
@@ -48,25 +49,31 @@ const OtcMedicine = () => {
       >
         {medicines.map((med) => (
           <SwiperSlide key={med.id}>
-            <Link to={`otcimedicineDetails/${med.category}`}>
-              <div className="bg-white rounded-xl shadow-xl p-4 h-80  flex flex-col justify-between">
-                <img
-                  style={imazeStyle}
-                  src={med.image}
-                  alt={med.name}
-                  className="text-center mx-auto  object-contain mb-2"
-                />
-                <div>
-                  <h2 className="text-lg font-semibold">{med.category}</h2>
-                  <p className="text-sm text-gray-600">{med.description}</p>
-                </div>
+            {/* <Link to={`otcimedicineDetails/${med.category}`}> */}
+            <div className="bg-white rounded-xl shadow-xl p-4 h-80  flex flex-col justify-between">
+              <img
+                style={imazeStyle}
+                src={med.image}
+                alt={med.name}
+                className="text-center mx-auto  object-contain mb-2"
+              />
+              <div>
+                <h2 className="text-lg font-semibold">{med.category}</h2>
+                <p className="text-sm text-gray-600">{med.description}</p>
               </div>
-            </Link>
+            </div>
+            {/* </Link> */}
           </SwiperSlide>
         ))}
       </Swiper>
       <div className="mt-10">
         <OtcBannerPage />
+      </div>
+      <div className="mt-10">
+        <Review />
+      </div>
+      <div className="mt-10">
+        <SubscribeSection />
       </div>
     </div>
   );

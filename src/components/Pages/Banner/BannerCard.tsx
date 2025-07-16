@@ -1,14 +1,24 @@
 import ImageUploder from "./ImageUploder";
+import { motion } from "framer-motion";
 
 const BannerCard = () => {
   return (
-    <div className="mt-5">
-      <div className="text-center w-3/5 mx-auto">
-        <h1 className="p-2  bg-base-100 h-10  font-bold">
-          PharmaDoor: The Leading Online Pharmacy and Healthcare Platform of
-          Bangladesh.
-        </h1>
+    <div>
+      <div className="mt-6 px-4 max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="text-center mb-4"
+        >
+          <h1 className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent px-2 py-1 rounded-md">
+            PharmaDoor: The Leading Online Pharmacy and Healthcare Platform of
+            Bangladesh.
+          </h1>
+        </motion.div>
       </div>
+
       <div>
         <ImageUploder />
       </div>
