@@ -109,11 +109,10 @@ const PharmacistNavbar = () => {
 
   return (
     <>
-      <div className="bg-blue-600 shadow-md p-4 flex items-center justify-between">
+      <div className="bg-blue-600 shadow-md p-4 flex items-center justify-between sticky top-0 z-50">
         <div className="text-2xl font-bold text-white">Pharmacist Panel</div>
 
         <div className="flex items-center space-x-6">
-          {/* Notification Bell */}
           <div className="relative">
             <button
               onClick={() => {

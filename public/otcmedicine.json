@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "category": "Fever",
+    "medicineType": "Fever",
     "description": "A temporary increase in average body temperature of 98.6°F (37°C). Often caused by infection.",
     "commonCauses": [
       "Viral infection",
@@ -14,7 +14,7 @@
   },
   {
     "id": 2,
-    "category": "Headache",
+    "medicineType": "Headache",
     "description": "Pain in the head or upper neck. It can be a symptom of stress or an underlying health issue.",
     "commonCauses": ["Stress", "Dehydration", "Migraine", "Tension"],
     "symptoms": ["Throbbing pain", "Sensitivity to light", "Nausea"],
@@ -23,7 +23,7 @@
   },
   {
     "id": 3,
-    "category": "Diarrhea",
+    "medicineType": "Diarrhea",
     "description": "Frequent loose or watery bowel movements.",
     "commonCauses": [
       "Food poisoning",
@@ -41,7 +41,7 @@
   },
   {
     "id": 4,
-    "category": "Eczema",
+    "medicineType": "Eczema",
     "description": "A condition that makes your skin red, inflamed, and itchy.",
     "commonCauses": ["Allergens", "Genetics", "Environmental factors"],
     "symptoms": ["Dry skin", "Itching", "Red patches", "Swelling"],
@@ -55,7 +55,7 @@
   },
   {
     "id": 5,
-    "category": "Pregnancy",
+    "medicineType": "Pregnancy",
     "description": "The condition of carrying a developing embryo or fetus within the female body.",
     "commonCauses": ["Fertilization of an egg by sperm"],
     "symptoms": ["Missed period", "Nausea", "Fatigue", "Breast tenderness"],

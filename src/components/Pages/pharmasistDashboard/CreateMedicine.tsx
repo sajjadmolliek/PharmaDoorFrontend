@@ -11,6 +11,7 @@ type FormValues = {
   brand: string;
   price: number;
   stock: number;
+  medicineType: string;
   manufactureDate: string;
   expiryDate: string;
   medicineImage: FileList;
@@ -52,6 +53,7 @@ const CreateMedicine = () => {
         brand: data.brand,
         price: Number(data.price),
         stock: Number(data.stock),
+        medicineType: data.medicineType,
         manufactureDate: new Date(data.manufactureDate),
         expiryDate: new Date(data.expiryDate),
         medicineImage: imageUrl,
@@ -60,13 +62,13 @@ const CreateMedicine = () => {
 
       const token = localStorage.getItem("accessToken");
       const response = await axios.post(
-        "https://pharma-door-backend.vercel.app/api/v1/medicine",
+        "http://localhost:5000/api/v1/medicine",
         payload,
         {
           headers: { Authorization: `${token}` },
         }
       );
-
+      console.log(response);
       if (response) {
         toast.success("Medicine created successfully!");
         reset();
@@ -145,6 +147,31 @@ const CreateMedicine = () => {
           />
           {errors.stock && (
             <p className="text-red-500 text-sm">{errors.stock.message}</p>
+          )}
+        </div>
+        <div>
+          <label className="block font-medium mb-1">Medicine Type</label>
+          <select
+            {...register("medicineType", {
+              required: "Medicine type is required",
+            })}
+            className="w-full border p-2 rounded"
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Select Medicine Type
+            </option>
+            <option value="Fever">Fever</option>
+            <option value="Headache">Headache</option>
+            <option value="Diarrhea">Diarrhea</option>
+            <option value="Eczema">Eczema</option>
+            <option value="Pregnancy">Pregnancy</option>
+          </select>
+
+          {errors.medicineType && (
+            <p className="text-red-500 text-sm">
+              {errors.medicineType.message}
+            </p>
           )}
         </div>
 

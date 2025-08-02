@@ -1,15 +1,15 @@
 import image1 from "../../../assets/Image2.png";
 import image2 from "../../../assets/Image (1).png";
-// import { FcBusinessman } from "react-icons/fc";
+
 import SecondNavbar from "./SecondNavbar";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../privateRoute/AuthContext";
-import CartButton from "../AddToCart/CartBtn";
+// import CartButton from "../AddToCart/CartBtn";
 
 import SearchBar from "./SearchBar";
+import UserMenu from "./UsreMenu";
 
-// import ThemeToggle from "../ToggleBtn/ThemeToggle";
 type FirstNavbarProps = {
   searchText: string;
   setSearchText: React.Dispatch<React.SetStateAction<string>>;
@@ -38,7 +38,7 @@ const FirstNavbar: React.FC<FirstNavbarProps> = ({
           </div>
         </Link>
 
-        {/* SearchBar (center but flexible on all screens) */}
+        {/* SearchBar  */}
         <div className="flex-1 flex justify-center">
           <div className="w-full max-w-md">
             <SearchBar searchText={searchText} setSearchText={setSearchText} />
@@ -46,26 +46,22 @@ const FirstNavbar: React.FC<FirstNavbarProps> = ({
         </div>
 
         <div className="flex items-center gap-2 md:gap-3">
-          {/* <div className="text-red-500">
-            <ThemeToggle></ThemeToggle>
-          </div> */}
           <div className="hidden md:flex items-center">
             <img src={image2} alt="delivery" className="w-6 h-6 mr-1" />
             <p className="text-sm">Your Order</p>
           </div>
 
-          {/* Cart */}
-          <div>
-            <CartButton />
-          </div>
-
           {user ? (
-            <button
-              onClick={handlelogout}
-              className="btn btn-error btn-sm text-xs"
-            >
-              Logout
-            </button>
+            user.role === "user" ? (
+              <UserMenu user={user} handleLogout={handlelogout} />
+            ) : (
+              <button
+                onClick={handlelogout}
+                className="btn btn-error btn-sm text-xs"
+              >
+                Logout
+              </button>
+            )
           ) : (
             <Link to="/login">
               <button className="btn btn-success btn-sm text-xs">Login</button>

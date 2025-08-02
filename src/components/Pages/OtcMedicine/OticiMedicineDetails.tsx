@@ -1,63 +1,66 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 type Medicine = {
-  id: number;
+  _id: string;
   name: string;
-  brand: string;
-  category: string;
-  dosage: string;
-  form: string;
   price: string;
-  image: string;
+  medicineType: string;
+  description: string;
+  medicineImage: string;
 };
-
-const OtciMedicineDetails = () => {
-  const { category } = useParams<{ category: string }>();
-  const [medicines, setMedicines] = useState<Medicine[]>([]);
-
+type OutletContextType = {
+  searchText: string;
+};
+const OtcMedicineDetails = () => {
+  const [filteredMedicines, setFilteredMedicines] = useState<Medicine[]>([]);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const medicineType = queryParams.get("type");
+  const { searchText } = useOutletContext<OutletContextType>();
   useEffect(() => {
-    fetch("/alloticemedicine.json")
+    fetch("http://localhost:5000/api/v1/medicine")
       .then((res) => res.json())
-      .then((data: Medicine[]) => {
-        const filtered = data.filter(
-          (med) => med.category.toLowerCase() === category?.toLowerCase()
+      .then((response) => {
+        const allMedicines: Medicine[] = response.data;
+        const filtered = allMedicines.filter(
+          (med) => med.medicineType === medicineType
         );
-        setMedicines(filtered);
+        setFilteredMedicines(filtered);
+      })
+      .catch((err) => {
+        console.error("Error fetching medicine:", err);
       });
-  }, [category]);
-
-  if (medicines.length === 0) {
-    return (
-      <p className="text-center mt-10 text-red-500">Medicine not found.</p>
-    );
-  }
-
+  }, [medicineType]);
+  const serachFilter = filteredMedicines.filter((item) =>
+    item.name.toLowerCase().includes(searchText.toLowerCase())
+  );
   return (
-    <div className="mx-auto p-5">
-      <h1 className="text-center text-xl font-bold">Medicine-{category}</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6 mt-3">
-        {medicines.map((medicine) => (
+    <div className="px-4 mt-10">
+      <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center text-green-600">
+        Showing results for: {medicineType}
+      </h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {serachFilter.map((med) => (
           <div
-            key={medicine.id}
-            className="border rounded-lg bg-white shadow-lg p-6  flex flex-col h-full"
+            key={med._id}
+            className="bg-white rounded-xl shadow-xl p-4 flex flex-col justify-between"
           >
             <img
-              src={medicine.image}
-              alt={medicine.name}
-              className="w-full h-48 object-contain mb-4"
+              src={med.medicineImage}
+              alt={med.name}
+              className="h-40 w-full object-contain mb-4"
             />
-            <h2 className="text-xl font-bold text-center mb-2 text-blue-600">
-              {medicine.name}
-            </h2>
+            <h2 className="text-lg font-semibold mb-2">name: {med.name}</h2>
+            <h2 className="text-lg font-semibold mb-2">price: {med.price}</h2>
+            <p className="text-sm text-gray-600 mb-4">{med.description}</p>
 
-            <div className="mt-auto">
-              <Link to={`/allmedicineDetails/${medicine.id}`}>
-                <button className="btn btn-secondary w-full">
-                  View Details
-                </button>
-              </Link>
-            </div>
+            <Link to={`/medicine-details/${med._id}`}>
+              <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+                View Details
+              </button>
+            </Link>
           </div>
         ))}
       </div>
@@ -65,4 +68,4 @@ const OtciMedicineDetails = () => {
   );
 };
 
-export default OtciMedicineDetails;
+export default OtcMedicineDetails;

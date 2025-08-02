@@ -204,10 +204,10 @@ const PharmasistsDashboard = () => {
 
             {selectedMonth && (
               <p className="mt-4 text-center text-lg font-medium text-gray-700">
-                🔎 <span className="font-semibold">{selectedMonth.name}</span>{" "}
+                <span className="font-semibold">{selectedMonth.name}</span>{" "}
                 Sales:{" "}
                 <span className="text-indigo-600 font-bold">
-                  ${selectedMonth.sales}
+                  Tk{selectedMonth.sales}
                 </span>
               </p>
             )}

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-// import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 const CalculateSummary = () => {
@@ -22,7 +21,10 @@ const CalculateSummary = () => {
   }, []);
 
   const calculate = () => {
-    const total = cartItems.reduce((sum, item) => sum + Number(item.price), 0);
+    const total = cartItems.reduce(
+      (sum, item) => sum + Number(item.price) * (item.quantity || 1),
+      0
+    );
     const tax = total * 0.05;
     const commission = total * 0.05;
     const finalTotal = total + tax - commission;
@@ -61,10 +63,7 @@ const CalculateSummary = () => {
       </div>
 
       <Link to="/medicines/checkout">
-        <button
-          className="mt-6 w-full bg-green-600 hover:bg-green-700 transition text-white font-semibold py-2 px-4 rounded-lg shadow"
-          // onClick={() => toast.success("Proceeding to checkout...")}
-        >
+        <button className="mt-6 w-full bg-green-600 hover:bg-green-700 transition text-white font-semibold py-2 px-4 rounded-lg shadow">
           🛒 Checkout
         </button>
       </Link>

@@ -5,6 +5,7 @@ import ScrollingBtn from "../Pages/GlobalArrowScrollBtn/Scrolling";
 import WhatsAppButton from "../Pages/GlobalWhatsUpContact/WhatsUp";
 import { Toaster } from "react-hot-toast";
 import { useState } from "react";
+import AddToCart from "../Pages/AddToCart/CartBtn";
 
 const MainRoute = () => {
   const [searchText, setSearchText] = useState("");
@@ -12,6 +13,7 @@ const MainRoute = () => {
     <div className=" min-h-screen bg-white text-black dark:bg-black dark:text-white">
       <FirstNavbar searchText={searchText} setSearchText={setSearchText} />
       <Toaster />
+      <AddToCart />
       <Outlet context={{ searchText }} />
       <ScrollingBtn />
       <WhatsAppButton />

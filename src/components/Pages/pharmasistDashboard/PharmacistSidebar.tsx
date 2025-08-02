@@ -9,7 +9,7 @@ import {
   FiMenu,
 } from "react-icons/fi";
 import { useAuth } from "../privateRoute/AuthContext";
-import { Clock, ListOrdered, Podcast } from "lucide-react";
+import { Clock, ListOrdered, Percent, Podcast } from "lucide-react";
 import { FaAllergies } from "react-icons/fa";
 import { MdWarningAmber } from "react-icons/md";
 
@@ -32,12 +32,8 @@ const PharmacistSidebar = ({ children }: AdminSidebarProps) => {
       <div
         className={`${
           isOpen ? "block" : "hidden"
-        } lg:block bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white w-64 h-screen fixed top-0 left-0 z-50 p-6 transition-all duration-300`}
+        } lg:block bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white w-64 h-screen max-h-screen fixed top-0 left-0 z-50 p-6 overflow-y-auto transition-all duration-300`}
       >
-        <h2 className="text-2xl font-semibold mb-8 text-center">
-          Pharmacist Panel
-        </h2>
-
         <nav className="flex flex-col gap-3" onClick={() => setIsOpen(false)}>
           <SidebarLink to="/" icon={<FiHome />} label="Home" />
           <SidebarLink
@@ -74,6 +70,16 @@ const PharmacistSidebar = ({ children }: AdminSidebarProps) => {
             to="/pharmacist-dashboard/all-equipment"
             icon={<FaAllergies />}
             label="all-equipment"
+          />
+          <SidebarLink
+            to="/pharmacist-dashboard/create-offer-medicine"
+            icon={<Percent />}
+            label="create-Offer-medicine"
+          />
+          <SidebarLink
+            to="/pharmacist-dashboard/all-offer-medicine"
+            icon={<FaAllergies />}
+            label="all-Offer-medicine"
           />
           <SidebarLink
             to="/pharmacist-dashboard/create-equipment"

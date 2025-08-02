@@ -40,7 +40,7 @@ import ExpireAllMedicine from "../Pages/pharmasistDashboard/ExpireAllMedicine";
 import UpdateExpireMedicines from "../Pages/pharmasistDashboard/UpdateExpireMedicines";
 import UpdateMedicine from "../Pages/pharmasistDashboard/UpdateMedicine";
 import ContactPage from "../Pages/contactPage/ContactPage";
-import AddToCard from "../Pages/AddToCart/AddToCard";
+// import AddToCard from "../Pages/AddToCart/AddToCard";
 import Checkout from "../Pages/AddToCart/CheckOut";
 import OrderedMedicine from "../Pages/pharmasistDashboard/OrderedMedicine";
 import Invoice from "../Pages/pharmasistDashboard/Invoice";
@@ -54,6 +54,14 @@ import UpdatePreExpireMedicines from "../Pages/pharmasistDashboard/UpdatePreExpi
 import PrescriptionUpload from "../Pages/Banner/PrescriptionUpload";
 import PrescribeMedicineDetails from "../Pages/Banner/PrescribeMedicineDetails";
 import OrderStatusUpdate from "../Pages/pharmasistDashboard/OrderStatusUpdate";
+import AboutePage from "../Pages/Navbar/Aboute";
+import BlogDetailsPage from "../Pages/BlogSection/BlogDetailsPage";
+import SpecialOfferDetails from "../Pages/OfferSection/SpecialOfferDetails";
+import UserProfile from "../Pages/Navbar/UserProfile";
+import OtcMedicineDetailsPerCard from "../Pages/OtcMedicine/OtcMedicineDetailsPerCard";
+import CreateOfferProduct from "../Pages/pharmasistDashboard/CreateOfferProduct/CreateOfferProduct";
+import AllOfferProducts from "../Pages/pharmasistDashboard/CreateOfferProduct/AllOfferProducts";
+import UpdateOfferPage from "../Pages/pharmasistDashboard/CreateOfferProduct/UpdateOfferPage";
 
 const router = createBrowserRouter([
   {
@@ -90,12 +98,24 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
+        path: "/profile",
+        element: <UserProfile />,
+      },
+      {
         path: "/phermacist-register",
         element: <PhermacistRegister />,
       },
       {
         path: "/contact-page",
         element: <ContactPage />,
+      },
+      {
+        path: "/medicine-details/:_id",
+        element: <OtcMedicineDetailsPerCard />,
+      },
+      {
+        path: "/blog/:slug",
+        element: <BlogDetailsPage />,
       },
       {
         path: "/medicines/napaDetails/:_id",
@@ -110,8 +130,13 @@ const router = createBrowserRouter([
         element: <SeclodetailsPage />,
       },
       {
-        path: "/medicines/add-to-cart",
-        element: <AddToCard />,
+        path: "/medicines/specialoffer/:_id",
+        element: <SpecialOfferDetails />,
+      },
+
+      {
+        path: "/medicines/aboute",
+        element: <AboutePage />,
       },
       {
         path: "/medicines/checkout",
@@ -161,7 +186,7 @@ const router = createBrowserRouter([
         element: <OnlineDoctors />,
       },
       {
-        path: "otcimedicineDetails/:category",
+        path: "/otc-medicine-details",
         element: <OtciMedicineDetails />,
       },
       {
@@ -235,6 +260,7 @@ const router = createBrowserRouter([
         path: "update-specific-medicine/:_id",
         element: <UpdateMedicine />,
       },
+
       {
         path: "create-medicine",
         element: <CreateMedicine />,
@@ -282,6 +308,18 @@ const router = createBrowserRouter([
       {
         path: "update-pre-expire-medicine/:_id",
         element: <UpdatePreExpireMedicines />,
+      },
+      {
+        path: "create-offer-medicine",
+        element: <CreateOfferProduct />,
+      },
+      {
+        path: "all-offer-medicine",
+        element: <AllOfferProducts />,
+      },
+      {
+        path: "update-offer-page/:_id",
+        element: <UpdateOfferPage />,
       },
     ],
   },

@@ -19,7 +19,11 @@ const SecondNavbar = () => {
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav
+      className={`bg-white shadow-md sticky top-0 ${
+        menuOpen ? "hidden" : "block"
+      } z-30`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex-shrink-0">
@@ -113,6 +117,20 @@ const SecondNavbar = () => {
               onClick={() => setMenuOpen(false)}
             >
               All Medicine
+            </Link>
+            <Link
+              to="/contact-page"
+              className="text-gray-700 hover:text-teal-600 px-3 py-2 rounded-md text-md font-medium"
+              onClick={() => setMenuOpen(false)}
+            >
+              Contact
+            </Link>
+            <Link
+              to="/medicines/aboute"
+              className="text-gray-700 hover:text-teal-600 px-3 py-2 rounded-md text-md font-medium"
+              onClick={() => setMenuOpen(false)}
+            >
+              Aboute
             </Link>
 
             {isAdmin && (

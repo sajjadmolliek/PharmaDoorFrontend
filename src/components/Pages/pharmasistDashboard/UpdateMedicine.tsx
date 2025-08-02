@@ -7,10 +7,11 @@ import toast from "react-hot-toast";
 const imgbbAPIKey = import.meta.env.VITE_IMGBB_API_KEY;
 
 const UpdateMedicine = () => {
-  const { _id } = useParams(); // Ensure route is /medicine/:id
+  const { _id } = useParams();
   const [loading, setLoading] = useState(true);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const nevigate = useNavigate();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     brand: "",
@@ -19,6 +20,7 @@ const UpdateMedicine = () => {
     medicineImage: "",
     manufactureDate: "",
     expiryDate: "",
+    medicineType: "", // ✅ Added field
   });
 
   useEffect(() => {
@@ -36,6 +38,7 @@ const UpdateMedicine = () => {
           medicineImage: data.medicineImage,
           manufactureDate: data.manufactureDate.slice(0, 10),
           expiryDate: data.expiryDate.slice(0, 10),
+          medicineType: data.medicineType || "", // ✅ Added field
         });
       } catch (err) {
         toast.error("Failed to load medicine data.");
@@ -47,8 +50,11 @@ const UpdateMedicine = () => {
     fetchMedicine();
   }, [_id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, files } = e.target;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, files } = e.target as HTMLInputElement &
+      HTMLSelectElement;
 
     if (name === "medicineImage" && files) {
       const file = files[0];
@@ -74,7 +80,6 @@ const UpdateMedicine = () => {
         `https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`,
         body
       );
-      console.log(response);
       return response.data.data.url;
     } catch (error) {
       toast.error("Image upload failed!");
@@ -90,7 +95,7 @@ const UpdateMedicine = () => {
     try {
       let uploadedImageUrl = formData.medicineImage;
 
-      // If a new image file was selected, upload it
+      // Upload new image if changed
       if (imageFile) {
         const uploaded = await uploadImageToImgbb(imageFile);
         if (!uploaded) return;
@@ -112,11 +117,11 @@ const UpdateMedicine = () => {
         }
       );
       toast.success("Medicine updated successfully!");
+      navigate("/pharmacist-dashboard/all-medicine");
     } catch (err) {
       console.error(err);
       toast.error("Failed to update medicine.");
     }
-    nevigate("/pharmacist-dashboard/all-medicine");
   };
 
   if (loading) return <p>Loading...</p>;
@@ -185,6 +190,26 @@ const UpdateMedicine = () => {
             className="border px-3 py-2 w-full rounded"
             required
           />
+        </div>
+
+        <div>
+          <label className="block font-medium mb-1">Medicine Type</label>
+          <select
+            name="medicineType"
+            value={formData.medicineType}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            required
+          >
+            <option value="" disabled>
+              Select Medicine Type
+            </option>
+            <option value="Fever">Fever</option>
+            <option value="Headache">Headache</option>
+            <option value="Diarrhea">Diarrhea</option>
+            <option value="Eczema">Eczema</option>
+            <option value="Pregnancy">Pregnancy</option>
+          </select>
         </div>
 
         <div>

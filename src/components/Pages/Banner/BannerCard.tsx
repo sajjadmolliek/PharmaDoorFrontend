@@ -1,3 +1,4 @@
+import OfferSection from "../OfferSection/OfferSection";
 import ImageUploder from "./ImageUploder";
 import { motion } from "framer-motion";
 
@@ -21,6 +22,9 @@ const BannerCard = () => {
 
       <div>
         <ImageUploder />
+      </div>
+      <div>
+        <OfferSection></OfferSection>
       </div>
     </div>
   );

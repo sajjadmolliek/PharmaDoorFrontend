@@ -79,9 +79,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } catch (err) {
       console.error("Logout error:", err);
     } finally {
-      setUser(null);
-      setAccessToken(null);
-      localStorage.removeItem("accessToken");
+      await setUser(null);
+      await setAccessToken(null);
+      await localStorage.removeItem("accessToken");
     }
   };
 
@@ -98,7 +98,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (err) {
       console.error("Refresh token failed:", err);
-      setUser(null);
+      await setUser(null);
       setAccessToken(null);
       localStorage.removeItem("accessToken");
     }
